@@ -1,0 +1,93 @@
+{
+    "home": {
+        "most popular movies": {
+            "method": "GET",
+            "controller method": "index",
+            "endpoint": "movies???"
+        }
+    },
+    "movies": {
+        "all movies": {
+            "method": "GET",
+            "controller method": "index",
+            "endpoint": "movies"
+        },
+        "movie details": {
+            "method": "GET",
+            "controller method": "show",
+            "endpoint": "movies/{movie}"
+        },
+        "comments for movie": {
+            "method": "GET",
+            "controller method": "show",
+            "endpoint": "comments/{movie}"
+        },
+        "add comment": {
+            "method": "POST",
+            "controller method": "store",
+            "endpoint": "comments"
+        },
+        "like movie": {
+            "method": "PUT",
+            "controller method": "update",
+            "endpoint": "movies/{movie}"
+        },
+        "add rating": {
+            "method": "POST",
+            "controller method": "store",
+            "endpoint": "rating"
+        }
+    },
+    "recommended" : {
+        "get recommended by user's ratings": {
+            "method": "POST",
+            "endpoint": "get-recommended-by-user"
+        },
+        "get recommended by friends' ratings": {
+            "method": "POST",
+            "endpoint": "get-recommended-by-friends"
+        },
+        "get recommended by friends' and user's ratings": {
+            "method": "POST",
+            "endpoint": "get-recommended-by-user-and-friends"
+        },
+        "get movies to watch together": {
+            "method": "POST",
+            "endpoint": "get-movies"
+        }
+    },
+    "friends": {
+        "all friends": {
+            "method": "GET",
+            "controller method": "index",
+            "endpoint": "friends/{user}"
+        },
+        "friend profile": {
+            "method": "GET",
+            "controller method": "show",
+            "endpoint": "friends/{friend}"
+        },
+        "follow": {
+            "method": "POST",
+            "controller method": "store",
+            "endpoint": "followers"
+        },
+        "unfollow": {
+            "method": "DELETE",
+            "controller method": "destroy",
+            "endpoint": "followers/{follower}"
+        }
+    },
+    "profile": {
+        "save profile": {
+            "method": "PUT",
+            "controller method": "update",
+            "endpoint": "user"
+        },
+        "get user": {
+            "method": "GET",
+            "controller method": "show",
+            "endpoint": "user"
+        }
+    }
+}
