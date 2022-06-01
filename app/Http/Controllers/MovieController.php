@@ -20,7 +20,9 @@ class MovieController extends Controller
     {
         return Movie::with('comments')
             ->with('comments.user')
-            ->with('actors')
+            ->with('actors', function ($qb) {
+                $qb->take(20);
+            })
             ->leftJoin('user_movies', function ($leftJoin) {
                 $leftJoin->on('movies.id', '=', 'user_movies.movie_id');
             })

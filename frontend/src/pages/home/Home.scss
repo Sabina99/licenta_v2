@@ -4,5 +4,103 @@
   .home-wrapper {
     width: 100%;
     background: #232323;
+
+    .row-item {
+      height: 500px;
+      background: #424242;
+      margin: 0 50px 50px;
+      border: 6px solid #2E2E2E;
+      display: flex;
+      padding: 10px;
+
+      .movie-image {
+        width: 350px;
+        height: 100%;
+        background-size: cover;
+      }
+
+      .movie-comments {
+        margin-left: 50px;
+        margin-right: 30px;
+        width: calc(100% - 400px);
+
+        .title-wrapper {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 25px;
+
+          .title {
+            font-family: "Broadway", serif;
+            font-size: 30px;
+            justify-content: start;
+            color: white;
+            border-bottom: 1px solid white;
+            width: fit-content;
+          }
+
+          .likes-wrapper {
+            display: flex;
+            color: white;
+
+            .likes {
+              display: flex;
+              align-items: center;
+              margin-right: 25px;
+
+              svg {
+                margin-left: 7px;
+              }
+
+              &:hover {
+                cursor: pointer;
+                color: #edbd28;
+              }
+            }
+          }
+        }
+
+        .commentsList {
+          height: 386px;
+          overflow: auto;
+          margin-bottom: 2px;
+
+          .comment-item {
+            display: flex;
+            margin-bottom: 10px;
+
+            .user-image {
+              width: 50px;
+              height: 50px;
+              background-size: cover;
+              background-position: center;
+              border-radius: 50%;
+              margin-right: 10px;
+            }
+
+            .comment,
+            .user-name {
+              font-size: 15px;
+              font-family: 'Gothic', serif;
+              color: white;
+              margin-bottom: 5px;
+            }
+          }
+        }
+
+        .input-wrapper {
+          margin: 0;
+
+          .input {
+            margin: 0;
+            width: 100%;
+          }
+
+          input {
+            padding-left: 10px;
+            font-size: 20px;
+          }
+        }
+      }
+    }
   }
 }

@@ -50,3 +50,21 @@
   url("../public/fonts/Gothic.TTF") format("truetype");
   font-weight: normal;
 }
+
+.commentsList::-webkit-scrollbar,
+.List::-webkit-scrollbar {
+  width: 1em;
+}
+
+.commentsList::-webkit-scrollbar-track,
+.List::-webkit-scrollbar-track {
+  background: #707070;
+  border-radius: 6px;
+}
+
+.commentsList::-webkit-scrollbar-thumb,
+.List::-webkit-scrollbar-thumb {
+  background-color: #EDBD28;
+  border-radius: 8px;
+  outline: none;
+}

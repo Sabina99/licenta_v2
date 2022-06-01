@@ -4,7 +4,6 @@ import { API_BASE_URL } from '../env'
 
 let instance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 1000,
   headers: {
     'Content-Type': 'application/json',
   }
