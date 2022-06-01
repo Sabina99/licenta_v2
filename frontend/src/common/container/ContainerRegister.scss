@@ -1,0 +1,29 @@
+.title-register {
+  margin: 3vh 0;
+}
+
+.login {
+  color: #707070;
+  text-decoration-line: underline;
+  float: right;
+  margin-right: 15px;
+}
+
+.container-footer-register {
+  bottom: 0;
+  position: absolute;
+  width: calc(100% - 60px);
+  padding: 30px 30px 15px 30px;
+}
+
+.submit-button-register {
+  width: 23vh;
+  height: 6vh;
+  background: #707070 0% 0% no-repeat padding-box;
+  border: 1px solid #707070;
+  border-radius: 35px;
+  opacity: 1;
+  font: normal normal normal 30px "Broadway";
+  cursor: pointer;
+}
+
