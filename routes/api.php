@@ -21,7 +21,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
 
     Route::middleware('auth:api')->group(function() {
-        Route::post('logout', 'App\Http\Auth\AuthController@logout')->name('logout.api');
+        Route::post('logout', 'App\Http\Controllers\Auth\AuthController@logout')->name('logout.api');
         Route::get('movies', 'App\Http\Controllers\MovieController@index')->name('movies.index');
         Route::get('movies/{movie}', 'App\Http\Controllers\MovieController@show')->name('movies.show');
         Route::get('comments', 'App\Http\Controllers\CommentController@index')->name('comments.index');

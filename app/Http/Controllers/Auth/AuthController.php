@@ -32,10 +32,17 @@ class AuthController extends Controller
             ], 401);
         }
 
+        /** @var User $user */
         $user = Auth::user();
         return response()->json([
             'status' => 'success',
-            'user' => $user,
+            'user' => array_merge(
+                $user->toArray(),
+                [
+                    'followers' => $user->followers()->get()->count(),
+                    'following' => $user->following()->get()->count()
+                ]
+            ),
             'authorisation' => [
                 'token' => $token,
                 'type' => 'bearer',
@@ -44,31 +51,30 @@ class AuthController extends Controller
 
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
         ]);
 
-        $registeredUsers = User::all();
         $notOk = true;
 
         while ($notOk) {
-          $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-          $charactersLength = strlen($characters);
-          $randomString = '';
-          for ($i = 0; $i < 3; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
-          }
-          $username = '@' . substr($request->name, 0, -1 * (strlen($request->name) > 3 ? strlen($request->name) - 3 : 0)) . $randomString;
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < 3; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            $username = '@' . substr($request->name, 0, -1 * (strlen($request->name) > 3 ? strlen($request->name) - 3 : 0)) . $randomString;
 
-          if (User::where('username', $username)) {
-            $notOk = false;
-          }
+            if (User::where('username', $username)) {
+                $notOk = false;
+            }
         }
 
-      dump($username);
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -99,9 +105,18 @@ class AuthController extends Controller
 
     public function profile()
     {
+        /** @var User $user */
+        $user = Auth::user();
+
         return response()->json([
             'status' => 'success',
-            'user' => Auth::user(),
+            'user' => array_merge(
+                $user->toArray(),
+                [
+                    'followers' => $user->followers()->get()->count(),
+                    'following' => $user->following()->get()->count()
+                ]
+            ),
         ]);
     }
 
