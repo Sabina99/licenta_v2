@@ -18,19 +18,17 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $movies = Movie::with('comments')
+        return Movie::with('comments')
             ->with('comments.user')
             ->with('actors')
             ->leftJoin('user_movies', function ($leftJoin) {
-                $leftJoin->on('movies.id', '=', 'user_movies.movie_id')
-                    ->where('user_movies.is_liked', '=', true);
+                $leftJoin->on('movies.id', '=', 'user_movies.movie_id');
             })
-            ->select('movies.*', DB::raw("count(user_movies.movie_id) as likes"))
+            ->select('movies.*', DB::raw("count(CASE WHEN `user_movies`.`is_liked` = true THEN 1 END) as likes"))
+            ->addSelect('movies.*', DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
             ->groupBy('movies.id')
             ->get()
             ->toArray();
-
-        return $movies;
     }
 
 
