@@ -1,0 +1,29 @@
+.input-groups {
+  display: flex;
+  flex-direction: column;
+
+  .input-edit {
+    margin: 0 10px;
+    margin-bottom: 20px;
+    background: #232323 0% 0% no-repeat padding-box;
+    border: 1px solid #707070;
+    border-radius: 5px;
+    letter-spacing: 0px;
+    color: #707070;
+    padding: 5px 15px;
+    height: 40px;
+    font-family: Gothic, serif;
+    font-size: 20px;
+  }
+
+  .ant-input {
+    height: 100%;
+  }
+
+  label {
+    margin-left: 10px;
+    color: #707070;
+    font-family: Gothic, serif;
+    margin-bottom: 2px;
+  }
+}
