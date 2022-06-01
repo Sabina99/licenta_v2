@@ -21,9 +21,12 @@ class MovieController extends Controller
         $movies = Movie::with('comments')
             ->with('comments.user')
             ->with('actors')
-//            ->join('user_movies', 'movies.id', '=', 'user_movies.movie_id')
-//            ->select('movies.*', DB::raw("count(user_movies.movie_id) as likes"))
-//            ->groupBy('movies.id')
+            ->leftJoin('user_movies', function ($leftJoin) {
+                $leftJoin->on('movies.id', '=', 'user_movies.movie_id')
+                    ->where('user_movies.is_liked', '=', true);
+            })
+            ->select('movies.*', DB::raw("count(user_movies.movie_id) as likes"))
+            ->groupBy('movies.id')
             ->get()
             ->toArray();
 
