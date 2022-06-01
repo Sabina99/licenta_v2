@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('user_movie', function (Blueprint $table) {
+        Schema::create('user_movies', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('rating')->nullable();
             $table->boolean('is_liked')->nullable();
