@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class MovieController extends Controller
 {
@@ -16,7 +18,16 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return Movie::all();
+        $movies = Movie::with('comments')
+            ->with('comments.user')
+            ->with('actors')
+//            ->join('user_movies', 'movies.id', '=', 'user_movies.movie_id')
+//            ->select('movies.*', DB::raw("count(user_movies.movie_id) as likes"))
+//            ->groupBy('movies.id')
+            ->get()
+            ->toArray();
+
+        return $movies;
     }
 
 

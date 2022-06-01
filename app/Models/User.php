@@ -75,4 +75,9 @@ class User extends Authenticate implements JWTSubject
     {
         return $this->belongsToMany(User::class, 'followers', 'follow_id','user_id');
     }
+
+    public function movies(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Movie::class, 'user_movies', 'user_id','movie_id');
+    }
 }

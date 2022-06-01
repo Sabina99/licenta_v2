@@ -32,17 +32,22 @@ function Movies() {
       <Menu/>
         <div className="movies-wrapper">
           {movies ?
-            <div className="header">
-              <CustomSearch
-                onChange={(el) => console.log('s', el)}
-                placeholder="Search movie or user"
-              />
-              <div className="filter-buttons">
-                <Button className="button" onClick={onFilter}>Filter by</Button>
-                <Button className="button" onClick={onSort}>Sort by</Button>
-                <Button className="button" onClick={onReset}>Reset filters</Button>
+            <div>
+              <div className="header">
+                <CustomSearch
+                  onChange={(el) => console.log('s', el)}
+                  placeholder="Search movie or user"
+                />
+                <div className="filter-buttons">
+                  <Button className="button" onClick={onFilter}>Filter by</Button>
+                  <Button className="button" onClick={onSort}>Sort by</Button>
+                  <Button className="button" onClick={onReset}>Reset filters</Button>
+                </div>
               </div>
-            </div> : null
+              <div className="body">
+
+              </div>
+            </div>: null
           }
         </div>
     </div>
