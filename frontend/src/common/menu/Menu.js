@@ -5,7 +5,9 @@ import MovieIcon from '@mui/icons-material/Movie';
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TheatersIcon from '@mui/icons-material/Theaters';
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {login, logout} from "../../actions/auth";
+import {useDispatch} from "react-redux";
 
 const itemClass = (location, nextPage = null) => {
   let className = 'item';
@@ -21,12 +23,16 @@ const itemClass = (location, nextPage = null) => {
   return className;
 }
 
-const onLogOut = (data) => {
-  console.log(data)
-}
+
 
 const Menu = () => {
   const l = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onLogOut = () => {
+    dispatch(logout()).then(() => navigate('/login'));
+  }
 
   return (
     <div className="menu-wrapper">
