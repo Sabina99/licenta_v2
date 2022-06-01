@@ -8,11 +8,12 @@
     .header {
 
       position: relative;
+      display: flex;
+      align-items: center;
 
       .filter-buttons {
         position: absolute;
         right: 0;
-        margin-top: 10px;
         margin-right: 30px;
 
         .button {
