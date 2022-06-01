@@ -1,5 +1,7 @@
 import './Home.scss';
 import Menu from "../../common/menu/Menu";
+import React from "react";
+import CustomSearch from "../../common/customSearch/CustomSearch";
 
 function Home() {
 
@@ -7,7 +9,10 @@ function Home() {
     <div className="home-container">
       <Menu/>
       <div className="home-wrapper">
-        Home
+        <CustomSearch
+          onChange={(el) => console.log('s', el)}
+          placeholder="Search movie or user"
+        />
       </div>
     </div>
   );

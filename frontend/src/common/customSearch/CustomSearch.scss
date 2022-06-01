@@ -1,0 +1,30 @@
+.input-wrapper {
+  display: flex;
+  margin: 20px 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  input {
+    font-size: 25px;
+    font-family: Gothic, serif;
+    width: 100%;
+    background: transparent;
+    border: none;
+    color: #707070;
+
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .ant-input-prefix {
+    display: flex;
+  }
+
+  .input {
+    display: flex;
+    width: 400px;
+    align-items: center;
+  }
+}
