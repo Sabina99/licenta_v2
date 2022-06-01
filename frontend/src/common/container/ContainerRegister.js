@@ -1,8 +1,21 @@
 import './ContainerRegister.scss';
 import { Form, Button } from "antd";
 import CustomInput from "../customInput/CustomInput";
+import {useDispatch} from "react-redux";
+import {register} from "../../actions/auth";
+import {useNavigate} from "react-router-dom";
 
 const ContainerRegister = () => {
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const onSubmit = (formData) => {
+    dispatch(register(formData)).then((data) => {
+      if (data?.status === 'success') {
+        navigate('/login');
+      }
+    });
+  };
 
   return (
     <div className="container-wrapper">
@@ -12,7 +25,7 @@ const ContainerRegister = () => {
       <Form
         name="login_form"
         layout="vertical"
-        onFinish={(values) => console.log(values)}
+        onFinish={(values) => onSubmit(values)}
       >
         <Form.Item
           name="name"

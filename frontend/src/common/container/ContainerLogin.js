@@ -1,8 +1,21 @@
 import './ContainerLogin.scss';
-import { Form, Button } from "antd";
+import {Form, Button, notification} from "antd";
 import CustomInput from "../customInput/CustomInput";
+import { useDispatch } from "react-redux";
+import {login} from "../../actions/auth";
+import {useNavigate} from "react-router-dom";
 
-const ContainerLogin = () => {
+const ContainerLogin = (props) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const onSubmit = (formData) => {
+    dispatch(login(formData)).then((data) => {
+      if (data?.status === 'success') {
+        navigate('/');
+      }
+    });
+  };
 
   return (
     <div className="container-wrapper">
@@ -12,7 +25,7 @@ const ContainerLogin = () => {
       <Form
         name="login_form"
         layout="vertical"
-        onFinish={(values) => console.log(values)}
+        onFinish={(values) => onSubmit(values)}
       >
         <Form.Item
           name="email"
@@ -38,7 +51,7 @@ const ContainerLogin = () => {
           name="password"
           rules={[
             {
-              pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+              // pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
               message: "Password is not valid!",
             },
             {
