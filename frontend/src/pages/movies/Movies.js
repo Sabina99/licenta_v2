@@ -1,11 +1,11 @@
 import './Movies.scss';
 import Menu from "../../common/menu/Menu";
-import {Button} from "antd";
+import {Button, Input} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import CustomSearch from "../../common/customSearch/CustomSearch";
 import React, {useState} from "react";
-
 import {getAllMovies} from "../../actions/movies";
+import VirtualScroll from "react-dynamic-virtual-scroll";
 
 function Movies() {
   const {movies} = useSelector((state) => state.movies);
@@ -27,6 +27,21 @@ function Movies() {
     console.log("reset")
   }
 
+  const renderItems = (index) => {
+    const el = movies[index];
+
+    return (
+      <div key={index} className="row-item">
+      <div className="movie-image" style={{backgroundImage: `url(${el.image})`}}></div>
+        <div className="title-wrapper">
+          <div className="title">
+            {el.title}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="movies-container">
       <Menu/>
@@ -45,7 +60,15 @@ function Movies() {
                 </div>
               </div>
               <div className="body">
-
+                {movies &&
+                  <VirtualScroll
+                    className="List"
+                    minItemHeight={500}
+                    totalLength={20}
+                    renderItem={(rowIndex) => renderItems(rowIndex)}
+                    style={{height: "calc(100vh - 95px)", overflow: 'auto'}}
+                  />
+                }
               </div>
             </div>: null
           }

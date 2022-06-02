@@ -28,5 +28,40 @@
         }
       }
     }
+
+    .body {
+
+      .List {
+
+        display: flex;
+        flex-flow: wrap;
+        justify-content: center;
+
+        .row-item {
+          height: 250px;
+          padding: 20px;
+          margin-bottom: 20px;
+
+          .movie-image {
+            width: 170px;
+            height: 100%;
+            background-size: cover;
+          }
+
+          .title {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-family: "Gothic", serif;
+            font-size: 15px;
+            justify-content: start;
+            color: #B1BBBB;
+            width: -moz-fit-content;
+            text-align: center;
+            max-width: 170px;
+            width: 100%;
+          }
+        }
+      }
+    }
   }
 }
