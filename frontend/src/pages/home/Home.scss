@@ -55,6 +55,10 @@
                 cursor: pointer;
                 color: #edbd28;
               }
+
+              &.active {
+                color: #edbd28;
+              }
             }
           }
         }

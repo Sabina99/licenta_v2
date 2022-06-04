@@ -6,17 +6,45 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import {useDispatch, useSelector} from "react-redux";
-import {getAllMovies} from "../../actions/movies";
+import {getAllMovies, saveComment} from "../../actions/movies";
 import {API_BASE_URL} from "../../env";
 import {Input} from "antd";
 import AddCommentIcon from '@mui/icons-material/AddComment';
 
 function Home() {
-  let {movies} = useSelector((state) => state.movies);
+  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true)
+  const {movies} = useSelector((state) => state.movies);
+  const [message, setMessage] = useState({});
+  const [movie, setMovie] = useState();
   const dispatch = useDispatch();
 
   if (!movies) {
     dispatch(getAllMovies());
+  }
+
+  const onChange = (a, movie) => {
+    setMessage({...message, [movie.id]: a.target.value})
+    setMovie(movie.id)
+  }
+
+  const submitMessage = (e, movieId) => {
+    if (e.key === 'Enter' && message[movieId]) {
+      dispatch(saveComment(movie, message[movieId]))
+        .then(() => dispatch(getAllMovies()))
+        .then(() => setMessage({...message, [movieId]: ''}))
+        .then(() => scrollToBottom())
+    }
+  }
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      const objDiv = document.getElementsByClassName("commentsList");
+      if (objDiv) {
+        for (let i = 0; i < objDiv.length; i++) {
+          objDiv[i].scrollTop = objDiv[i].scrollHeight;
+        }
+      }
+    }, 1)
   }
 
   const renderItems = (index) => {
@@ -31,7 +59,7 @@ function Home() {
               {el.title}
             </div>
             <div className="likes-wrapper">
-              <div className="likes">
+              <div className={"likes " + (el.liked === 1 ? 'active' : '')}>
                 {el.likes} <ThumbUpIcon />
               </div>
               <div className="likes">
@@ -51,12 +79,12 @@ function Home() {
             }
             <div className="input-wrapper">
               <Input
-                // placeholder={props.placeholder}
-                // onChange={(e) => onChange(e)}
+                onChange={(e) => onChange(e, movies[index])}
                 type="text"
-                // defaultValue={inputValue}
+                value={message[movies[index].id]}
                 className="input"
                 prefix={<AddCommentIcon />}
+                onKeyDown={(e) => submitMessage(e, movies[index].id)}
               />
             </div>
           </div>
@@ -77,6 +105,11 @@ function Home() {
         </div>
       </div>
     )
+  }
+
+  if (shouldScrollToBottom) {
+    scrollToBottom();
+    setShouldScrollToBottom(false)
   }
 
   return (

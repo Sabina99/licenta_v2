@@ -26,8 +26,10 @@ class MovieController extends Controller
             ->leftJoin('user_movies', function ($leftJoin) {
                 $leftJoin->on('movies.id', '=', 'user_movies.movie_id');
             })
-            ->select('movies.*', DB::raw("count(CASE WHEN `user_movies`.`is_liked` = true THEN 1 END) as likes"))
-            ->addSelect('movies.*', DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
+            ->select('movies.*')
+            ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = true THEN 1 END) as likes"))
+            ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
+            ->addSelect(DB::raw("(SELECT us.is_liked FROM user_movies us WHERE us.user_id = 2 AND movies.id = us.movie_id) AS liked"))
             ->groupBy('movies.id')
             ->get()
             ->toArray();
