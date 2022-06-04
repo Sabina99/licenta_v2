@@ -1,6 +1,6 @@
 import './Home.scss';
 import Menu from "../../common/menu/Menu";
-import CustomSearch from "../../common/customSearch/CustomSearch";
+import AutoComplete from "../../common/customAutoComplete/CustomAutoComplete";
 import React, { useState } from "react";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
@@ -121,10 +121,7 @@ function Home() {
     <div className="home-container">
       <Menu/>
       <div className="home-wrapper">
-        <CustomSearch
-          onChange={(el) => console.log('s', el)}
-          placeholder="Search movie or user"
-        />
+        <AutoComplete/>
 
         <div>
           {

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class MovieController extends Controller
 {
@@ -18,10 +19,11 @@ class MovieController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $userId = Auth::user()->id;
-        return Movie::with('comments')
+
+        $qb = Movie::with('comments')
             ->with('comments.user')
             ->with('actors', function ($qb) {
                 $qb->take(20);
@@ -33,9 +35,14 @@ class MovieController extends Controller
             ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = true THEN 1 END) as likes"))
             ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
             ->addSelect(DB::raw("(SELECT us.is_liked FROM user_movies us WHERE us.user_id = {$userId} AND movies.id = us.movie_id) AS liked"))
-            ->groupBy('movies.id')
-            ->get()
-            ->toArray();
+            ->groupBy('movies.id');
+
+        $name = $request->get('name');
+        if ($name) {
+            $qb->where('movies.title', 'LIKE', "%$name%");
+        }
+
+        return $qb->get()->toArray();
     }
 
 
