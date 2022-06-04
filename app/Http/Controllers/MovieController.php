@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
+use App\Models\UserMovie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
@@ -45,5 +47,31 @@ class MovieController extends Controller
     public function show(Movie $movie)
     {
         return new JsonResponse($movie);
+    }
+
+    /**
+     * @param Movie $movie
+     * @param $status
+     * @return JsonResponse
+     */
+    public function likeMovie(Movie $movie, $status)
+    {
+        $userId = Auth::user()->id;
+        $userMovie = UserMovie::query()
+            ->where('movie_id', '=', $movie->id)
+            ->where('user_id', '=', $userId)
+            ->first();
+
+        if (!$userMovie) {
+            $userMovie =  UserMovie::create([
+                'movie_id' => $movie->id,
+                'user_id' => $userId
+            ]);
+        }
+
+        $userMovie->is_liked = $status;
+        $userMovie->save();
+
+        return new JsonResponse($userMovie->toArray());
     }
 }

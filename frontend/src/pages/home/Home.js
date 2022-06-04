@@ -6,7 +6,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import {useDispatch, useSelector} from "react-redux";
-import {getAllMovies, saveComment} from "../../actions/movies";
+import {getAllMovies, saveComment, likeMovie} from "../../actions/movies";
 import {API_BASE_URL} from "../../env";
 import {Input} from "antd";
 import AddCommentIcon from '@mui/icons-material/AddComment';
@@ -38,13 +38,18 @@ function Home() {
 
   const scrollToBottom = () => {
     setTimeout(() => {
-      const objDiv = document.getElementsByClassName("commentsList");
-      if (objDiv) {
-        for (let i = 0; i < objDiv.length; i++) {
-          objDiv[i].scrollTop = objDiv[i].scrollHeight;
+      const commentsElement = document.getElementsByClassName("commentsList");
+      if (commentsElement) {
+        for (let i = 0; i < commentsElement.length; i++) {
+          commentsElement[i].scrollTop = commentsElement[i].scrollHeight;
         }
       }
     }, 1)
+  }
+
+  const onLikeMovie = (movie, status) => {
+    dispatch(likeMovie(movie.id, status))
+      .then(() => dispatch(getAllMovies()))
   }
 
   const renderItems = (index) => {
@@ -59,10 +64,10 @@ function Home() {
               {el.title}
             </div>
             <div className="likes-wrapper">
-              <div className={"likes " + (el.liked === 1 ? 'active' : '')}>
+              <div className={"likes " + (el.liked === 1 ? 'active' : '')} onClick={() => onLikeMovie(movies[index], 1)}>
                 {el.likes} <ThumbUpIcon />
               </div>
-              <div className="likes">
+              <div className={"likes " + (el.liked === 0 ? 'active' : '')} onClick={() => onLikeMovie(movies[index], 0)}>
                 {el.dislikes} <ThumbDownAltIcon />
               </div>
             </div>
