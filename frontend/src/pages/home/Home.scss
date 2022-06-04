@@ -8,7 +8,8 @@
     .row-item {
       height: 500px;
       background: #424242;
-      margin: 0 50px 50px;
+      width: 1200px;
+      margin-bottom: 50px;
       border: 6px solid #2E2E2E;
       display: flex;
       padding: 10px;
@@ -27,7 +28,7 @@
         .title-wrapper {
           display: flex;
           justify-content: space-between;
-          margin-bottom: 25px;
+          margin-bottom: 10px;
 
           .title {
             font-family: "Broadway", serif;
@@ -36,6 +37,11 @@
             color: white;
             border-bottom: 1px solid white;
             width: fit-content;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 55vh;
           }
 
           .likes-wrapper {
@@ -64,7 +70,7 @@
         }
 
         .commentsList {
-          height: 386px;
+          height: 400px;
           overflow: auto;
           margin-bottom: 2px;
 
@@ -88,6 +94,12 @@
               color: white;
               margin-bottom: 5px;
             }
+
+            .comment-wrapper {
+              display: flex;
+              flex-direction: column;
+              flex: 1;
+            }
           }
         }
 
@@ -105,6 +117,12 @@
           }
         }
       }
+    }
+
+    .List {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

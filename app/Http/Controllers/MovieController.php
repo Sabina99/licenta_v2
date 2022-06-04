@@ -20,6 +20,7 @@ class MovieController extends Controller
      */
     public function index()
     {
+        $userId = Auth::user()->id;
         return Movie::with('comments')
             ->with('comments.user')
             ->with('actors', function ($qb) {
@@ -31,7 +32,7 @@ class MovieController extends Controller
             ->select('movies.*')
             ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = true THEN 1 END) as likes"))
             ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
-            ->addSelect(DB::raw("(SELECT us.is_liked FROM user_movies us WHERE us.user_id = 2 AND movies.id = us.movie_id) AS liked"))
+            ->addSelect(DB::raw("(SELECT us.is_liked FROM user_movies us WHERE us.user_id = {$userId} AND movies.id = us.movie_id) AS liked"))
             ->groupBy('movies.id')
             ->get()
             ->toArray();
@@ -69,7 +70,8 @@ class MovieController extends Controller
             ]);
         }
 
-        $userMovie->is_liked = $status;
+
+        $userMovie->is_liked = $userMovie->is_liked == $status ? null : $status;
         $userMovie->save();
 
         return new JsonResponse($userMovie->toArray());
