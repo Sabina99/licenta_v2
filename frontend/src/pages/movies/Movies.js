@@ -1,18 +1,20 @@
 import './Movies.scss';
 import Menu from "../../common/menu/Menu";
-import {Button, Input} from "antd";
+import {Button} from "antd";
 import {useDispatch, useSelector} from "react-redux";
 import CustomSearch from "../../common/customSearch/CustomSearch";
 import React, {useState, useEffect} from "react";
-import {getAllMovies} from "../../actions/movies";
-import VirtualScroll from "react-dynamic-virtual-scroll";
+import {getMovies} from "../../actions/movies";
 import MovieModal from "../../common/modals/MovieModal";
 import {getMovie} from "../../actions/movie";
+import InfiniteScroll from "react-infinite-scroll-component";
+import {API_BASE_URL} from "../../env";
 
 function Movies() {
-  const {movies} = useSelector((state) => state.movies);
+  const {chunkMovies} = useSelector((state) => state.movies);
   const dispatch = useDispatch();
   const [movie, setMovie] = useState(null);
+  const [batchNumber, setBatchNumber] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const movieDetails = useSelector((state) => state.movie);
 
@@ -22,8 +24,8 @@ function Movies() {
     }
   }, [movieDetails]);
 
-  if (!movies) {
-    dispatch(getAllMovies());
+  if (!chunkMovies.length) {
+    dispatch(getMovies(40));
   }
 
   const onFilter = () => {
@@ -48,19 +50,43 @@ function Movies() {
     setIsModalVisible(false);
   }
 
-  const renderItems = (index) => {
-    const el = movies[index];
+  const renderItems = (movie) => {
 
     return (
-      <div key={index} className="row-item" onClick={() => showModal(el)}>
-        <div className="movie-image" style={{backgroundImage: `url(${el.image})`}}></div>
+      <div key={movie.id} className="row-item" onClick={() => showModal(movie)}>
+        {/*<div className="movie-image" style={{backgroundImage: `url(${movie.image})`}}></div>*/}
+        <div className="movie-image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + '/storage/images/jonny.jpg'})`}}></div>
         <div className="title-wrapper">
           <div className="title">
-            {el.title}
+            {movie.title}
           </div>
         </div>
       </div>
     )
+  }
+
+  const fetchMoreData = () => {
+    dispatch(getMovies(40, batchNumber))
+      .then(() => setBatchNumber(batchNumber + 1));
+  };
+
+  let chunkSize = 6;
+  if (window.outerWidth < 950) {
+    chunkSize = 2
+  }
+  if (window.outerWidth < 1000) {
+    chunkSize = 3
+  }
+  if (window.outerWidth < 1200) {
+    chunkSize = 4
+  }
+  if (window.outerWidth < 1400) {
+    chunkSize = 5
+  }
+
+  let chunks = [];
+  for (let i = 0; i < chunkMovies?.length; i += chunkSize) {
+    chunks.push(chunkMovies.slice(i, i + chunkSize));
   }
 
   return (
@@ -68,7 +94,7 @@ function Movies() {
       <Menu/>
         <div className="movies-wrapper">
           <MovieModal  isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} movie={movie} setMovie={setMovie}/>
-          {movies ?
+          {chunkMovies ?
             <div>
               <div className="header">
                 <CustomSearch
@@ -82,15 +108,23 @@ function Movies() {
                 </div>
               </div>
               <div className="body">
-                {movies &&
-                  <VirtualScroll
-                    className="List"
-                    minItemHeight={500}
-                    totalLength={20}
-                    renderItem={(rowIndex) => renderItems(rowIndex)}
-                    style={{height: "calc(100vh - 95px)", overflow: 'auto'}}
-                  />
-                }
+                <div
+                  id="scrollableList"
+                  className="List"
+                >
+                  <InfiniteScroll
+                    dataLength={chunks.length}
+                    next={fetchMoreData}
+                    hasMore={true}
+                    scrollableTarget="scrollableList"
+                  >
+                    {chunks.map((chunk) => (
+                      <div style={{display: 'flex'}}>
+                        { chunk.map((movie) => (renderItems(movie))) }
+                      </div>
+                    ))}
+                  </InfiniteScroll>
+                </div>
               </div>
             </div>: null
           }

@@ -39,12 +39,13 @@
         border: 15px solid green;
         padding: 50px;
         margin: 20px;
-
       }
 
       .List {
-
+        height: calc(100vh - 93px);
+        overflow: auto;
         display: flex;
+        flex-direction: column;
         flex-flow: wrap;
         justify-content: center;
 
@@ -71,7 +72,14 @@
             max-width: 170px;
             width: 100%;
           }
+        }
 
+        .infinite-scroll-component__outerdiv {
+          height: calc(100vh - 93px);
+        }
+
+        .infinite-scroll-component {
+          overflow: hidden !important;
         }
       }
     }

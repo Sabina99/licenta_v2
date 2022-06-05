@@ -39,6 +39,14 @@ class MovieController extends Controller
             $qb->where('movies.title', 'LIKE', "%$name%");
         }
 
+        $take = $request->get('take');
+        $batch = $request->get('batch');
+        if ($take) {
+            $qb
+                ->skip($batch * $take)
+                ->take($take);
+        }
+
         return $qb->get()->toArray();
     }
 

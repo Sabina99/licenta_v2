@@ -4,6 +4,7 @@ import {routes} from "./common/routes";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getUser} from "./actions/auth";
+import {resetMoviesChunk} from "./actions/movies";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ function App() {
   if (!user && token) {
     dispatch(getUser())
   }
+
+  dispatch(resetMoviesChunk())
 
   return (
     <div className="app-container">
