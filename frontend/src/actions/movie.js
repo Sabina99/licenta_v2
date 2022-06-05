@@ -25,3 +25,15 @@ export const changeRating = (movieId, rating) => (dispatch) => {
     (error) => handleError(error, dispatch)
   );
 };
+
+export const getRating = (movieId) => (dispatch) => {
+
+  return instance.get('/rating', movieId).then(
+    (response) => {
+      // dispatch({ type: GET_MOVIE_SUCCESS , payload: response?.data});
+
+      return response?.data;
+    },
+    (error) => handleError(error, dispatch)
+  );
+};

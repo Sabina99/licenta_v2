@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserMovieRequest;
 use App\Http\Requests\UpdateUserMovieRequest;
 use App\Models\UserMovie;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -48,15 +49,11 @@ class UserMovieController extends Controller
         return new JsonResponse($userMovie);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserMovie  $userMovie
-     * @return \Illuminate\Http\Response
-     */
-    public function show(UserMovie $userMovie)
+    public function show(Request $request)
     {
-        return UserMovie::where('id', $userMovie->id)->get();
+        return UserMovie::query()
+            ->where('movie_id', '=', $request->get("movieId"))
+            ->first();
     }
 
     /**

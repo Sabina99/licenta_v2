@@ -29,6 +29,8 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::get('comments', 'App\Http\Controllers\CommentController@index')->name('comments.index');
         Route::post('comments/{movie}', 'App\Http\Controllers\CommentController@store')->name('comments.store');
 
+
+        Route::post('rating', 'App\Http\Controllers\UserMovieController@store')->name('user_movie.store');
         Route::post('rating', 'App\Http\Controllers\UserMovieController@store')->name('user_movie.store');
         Route::put('rating', 'App\Http\Controllers\UserMovieController@update')->name('user_movie.update');
 

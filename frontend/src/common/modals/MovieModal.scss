@@ -40,8 +40,14 @@
       margin-right: 15px;
       width: 60%;
 
+      .comments {
+        height: calc(100% - 100px);
+      }
+
       .movie-details-title {
         font-size: 25px;
+        white-space: nowrap;
+        overflow: hidden;
         text-overflow: ellipsis;
       }
 
@@ -62,8 +68,15 @@
         }
       }
 
+      .movie-show-comments {
+        margin-top: 20px;
+        cursor: pointer;
+        text-decoration: underline;
+        width: fit-content;
+      }
+
       .commentsList {
-        height: 15vh;;
+        height: calc(100% - 40px);
         overflow: auto;
         margin-bottom: 2px;
 
@@ -124,4 +137,8 @@
 
 .MuiRating-icon {
   color: white !important;
+}
+
+.MuiRating-iconFilled {
+  color: #e7b927 !important;
 }
