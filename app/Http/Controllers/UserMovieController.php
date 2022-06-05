@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserMovieRequest;
 use App\Http\Requests\UpdateUserMovieRequest;
 use App\Models\UserMovie;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class UserMovieController extends Controller
 {
@@ -22,16 +24,28 @@ class UserMovieController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreUserMovieRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function store(StoreUserMovieRequest $request)
     {
-        UserMovie::create([
-            'rating' => $request->get('rating') ?? null,
-            'is_liked' => $request->get('is_liked') ?? null,
-            'user_id' => $request->get('user_id'),
-            'movie_id' => $request->get('movie_id')
-        ]);
+        $userId = Auth::user()->id;
+        $movieId =  $request->get('movieId');
+        $userMovie = UserMovie::query()
+            ->where('movie_id', '=', $movieId)
+            ->where('user_id', '=', $userId)
+            ->first();
+
+        if (!$userMovie) {
+            $userMovie =  UserMovie::create([
+                'movie_id' => $movieId,
+                'user_id' => $userId
+            ]);
+        }
+
+        $userMovie->rating = $request->get('rating');
+        $userMovie->save();
+
+        return new JsonResponse($userMovie);
     }
 
     /**

@@ -44,29 +44,7 @@
             max-width: 55vh;
           }
 
-          .likes-wrapper {
-            display: flex;
-            color: white;
 
-            .likes {
-              display: flex;
-              align-items: center;
-              margin-right: 25px;
-
-              svg {
-                margin-left: 7px;
-              }
-
-              &:hover {
-                cursor: pointer;
-                color: #edbd28;
-              }
-
-              &.active {
-                color: #edbd28;
-              }
-            }
-          }
         }
 
         .commentsList {
@@ -123,6 +101,30 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+  }
+}
+
+.likes-wrapper {
+  display: flex;
+  color: white;
+
+  .likes {
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+
+    svg {
+      margin-left: 7px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      color: #edbd28;
+    }
+
+    &.active {
+      color: #edbd28;
     }
   }
 }

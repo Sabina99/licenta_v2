@@ -25,9 +25,6 @@ class MovieController extends Controller
 
         $qb = Movie::with('comments')
             ->with('comments.user')
-            ->with('actors', function ($qb) {
-                $qb->take(20);
-            })
             ->leftJoin('user_movies', function ($leftJoin) {
                 $leftJoin->on('movies.id', '=', 'user_movies.movie_id');
             })
@@ -54,7 +51,21 @@ class MovieController extends Controller
      */
     public function show(Movie $movie)
     {
-        return new JsonResponse($movie);
+        $user = Auth::user();
+        return Movie::where('movies.id', $movie->id)
+            ->with('comments')
+            ->with('comments.user')
+            ->with('actors')
+            ->leftJoin('user_movies', function ($leftJoin) {
+                $leftJoin->on('movies.id', '=', 'user_movies.movie_id');
+            })
+            ->select('movies.*')
+            ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = true THEN 1 END) as likes"))
+            ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
+            ->addSelect(DB::raw("(SELECT user_movies.is_liked FROM user_movies WHERE user_movies.user_id = {$user->id} AND movies.id = user_movies.movie_id) as liked"))
+            ->addSelect(DB::raw("(SELECT user_movies.rating as rating FROM user_movies WHERE user_movies.user_id = {$user->id} AND movies.id = user_movies.movie_id) as rating"))
+            ->groupBy('movies.id')
+            ->first();
     }
 
     /**

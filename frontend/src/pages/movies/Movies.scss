@@ -25,11 +25,22 @@
           color: #B1BBBB;
           border: 1px solid #707070;
           margin: 5px;
+          display: inline-flex;
+          align-items: center;
         }
       }
     }
 
     .body {
+
+      .movie-details {
+        background-color: lightgrey;
+        width: 300px;
+        border: 15px solid green;
+        padding: 50px;
+        margin: 20px;
+
+      }
 
       .List {
 
@@ -60,6 +71,7 @@
             max-width: 170px;
             width: 100%;
           }
+
         }
       }
     }
