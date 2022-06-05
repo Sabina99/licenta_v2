@@ -15,9 +15,7 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('movie_id');
             $table->unsignedInteger('user_id');
-            $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->text('comment');
             $table->integer('likes')->nullable();

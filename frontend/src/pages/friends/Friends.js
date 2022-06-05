@@ -1,5 +1,6 @@
 import './Friends.scss';
 import Menu from "../../common/menu/Menu";
+import AutoComplete from "../../common/customAutoComplete/CustomAutoComplete";
 
 function Friends() {
 
@@ -7,7 +8,7 @@ function Friends() {
     <div className="friends-container">
       <Menu/>
       <div className="friends-wrapper">
-        Friends
+        <AutoComplete/>
       </div>
     </div>
   );

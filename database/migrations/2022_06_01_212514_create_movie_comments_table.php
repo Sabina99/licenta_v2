@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('movie_comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('comment')->nullable();
             $table->unsignedInteger('movie_id');
             $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
             $table->unsignedInteger('comment_id');
