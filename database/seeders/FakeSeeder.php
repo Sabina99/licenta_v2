@@ -27,19 +27,19 @@ class FakeSeeder extends Seeder
             ->create();
 
         Follower::factory()
-            ->count(100)
+            ->count(1000)
             ->create();
 
         UserMovie::factory()
-            ->count(100)
+            ->count(1000)
             ->create();
 
         Comment::factory()
-            ->count(500)
+            ->count(1000)
             ->create();
 
         MovieComment::factory()
-            ->count(500)
+            ->count(1000)
             ->create();
     }
 }

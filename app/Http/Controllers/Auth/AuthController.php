@@ -122,9 +122,17 @@ class AuthController extends Controller
 
     public function refresh()
     {
+        /** @var User $user */
+        $user = Auth::user();
         return response()->json([
             'status' => 'success',
-            'user' => Auth::user(),
+            'user' => array_merge(
+                $user->toArray(),
+                [
+                    'followers' => $user->followers()->get()->count(),
+                    'following' => $user->following()->get()->count()
+                ]
+            ),
             'authorisation' => [
                 'token' => Auth::refresh(),
                 'type' => 'bearer',

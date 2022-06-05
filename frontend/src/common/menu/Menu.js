@@ -6,8 +6,9 @@ import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {login, logout} from "../../actions/auth";
-import {useDispatch} from "react-redux";
+import {logout} from "../../actions/auth";
+import {useDispatch, useSelector} from "react-redux";
+import {API_BASE_URL} from "../../env";
 
 const itemClass = (location, nextPage = null) => {
   let className = 'item';
@@ -29,30 +30,37 @@ const Menu = () => {
   const l = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {user: loggedInUser} = useSelector((state) => state.auth);
+  const {user} = loggedInUser || {user: null}
 
   const onLogOut = () => {
     dispatch(logout()).then(() => navigate('/login'));
   }
 
+  let backgroundImage = API_BASE_URL.replace('/api', '') + user?.image;
+  if (!user?.image) {
+    backgroundImage = "../../../images/default-profile-picture.jpg"
+  }
+
   return (
     <div className="menu-wrapper">
       <div className="profile">
-        <div className="profile-image"></div>
-        <div className="name">Sabina Apostol</div>
-        <div className="username">@sabinas</div>
+        <div className="profile-image" style={{backgroundImage: `url(${backgroundImage})`}}></div>
+        <div className="name">{user?.name}</div>
+        <div className="username">{user?.username}</div>
       </div>
       <div className="followers">
         <div className="section">
           <GroupIcon style={{color: '#B1BBBB'}}/>
           <div className="follow">
-            <div className="color-gray">645</div>
+            <div className="color-gray">{user?.followers}</div>
             <div className="color-gray">followers</div>
           </div>
         </div>
         <div className="section">
           <GroupIcon style={{color: '#B1BBBB'}}/>
           <div className="follow">
-            <div className="color-gray">365</div>
+            <div className="color-gray">{user?.following}</div>
             <div className="color-gray">following</div>
           </div>
         </div>

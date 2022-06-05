@@ -3,7 +3,8 @@ import {
   REGISTER_FAIL,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  REFRESH_USER_SUCCESS
 } from "../types/types";
 
 const user = JSON.parse(localStorage.getItem("user"));
@@ -26,6 +27,7 @@ export default function (state = initialState, action) {
         ...state,
         isLoggedIn: false,
       };
+    case REFRESH_USER_SUCCESS:
     case LOGIN_SUCCESS:
       return {
         ...state,

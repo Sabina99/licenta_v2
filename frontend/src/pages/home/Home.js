@@ -100,10 +100,14 @@ function Home() {
 
   const renderComment = (index, indexMovie) => {
     const el = movies[indexMovie]['comments'][index];
+    let backgroundImage = API_BASE_URL.replace('/api', '') + el.user.image;
+    if (!el.user.image) {
+      backgroundImage = "../../../images/default-profile-picture.jpg"
+    }
 
     return (
       <div key={index} className="comment-item">
-        <div className="user-image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + el.user.image})`}}></div>
+        <div className="user-image" style={{backgroundImage: `url(${backgroundImage})`}}></div>
         <div className="comment-wrapper">
           <div className="user-name">{el.user.name}</div>
           <div className="comment">{el.comment}</div>

@@ -3,6 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOGOUT,
   SET_MESSAGE,
+  REFRESH_USER_SUCCESS,
 } from "../types/types";
 
 import instance from "../plugins/axios";
@@ -50,4 +51,18 @@ export const logout = () => (dispatch) => {
     },
     (error) => handleError(error, dispatch)
   );
+};
+
+export const getUser = () => (dispatch) => {
+  return instance
+    .post('/refresh')
+    .then((response) => {
+      if (response?.data?.authorisation.token) {
+        localStorage.setItem("token", response?.data?.authorisation.token);
+      }
+
+      dispatch({ type: REFRESH_USER_SUCCESS, payload: { user: response?.data } });
+
+      return response?.data;
+    }, (error) =>  handleError(error, dispatch))
 };

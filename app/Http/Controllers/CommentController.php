@@ -34,15 +34,13 @@ class CommentController extends Controller
     public function store(Movie $movie, StoreCommentRequest $request)
     {
         $comment = Comment::create([
-            'movie_id' => $movie->id,
             'user_id' => Auth::user()->id,
             'comment' => $request->get('comment')
         ]);
 
         MovieComment::create([
             'movie_id' => $movie->id,
-            'comment_id' => $comment->id,
-            'comment' => $request->get('comment')
+            'comment_id' => $comment->id
         ]);
 
         return new JsonResponse($comment);
