@@ -9,7 +9,7 @@ class Movie extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'image', 'directors', 'plot', 'imdb_rating', 'genres', 'external_id', 'year'];
+    protected $fillable = ['title', 'image', 'directors', 'plot', 'imdb_rating', 'genres', 'external_id', 'year', 'image_src'];
 
     public function actors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {

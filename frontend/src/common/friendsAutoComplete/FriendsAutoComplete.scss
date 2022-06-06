@@ -1,0 +1,74 @@
+.autocomplete-wrapper {
+  display: flex;
+  margin: 20px 0;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  .ant-select-show-search.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+
+    input {
+      font-size: 25px;
+      font-family: Gothic, serif;
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #707070;
+    }
+
+    .ant-select-selection-placeholder {
+      font-size: 25px;
+      font-family: Gothic, serif;
+      color: #707070;
+    }
+
+    .ant-select-selection-search {
+      display: flex;
+    }
+  }
+
+  .ant-select-auto-complete {
+    display: flex;
+    width: 40vw;
+    align-items: center;
+    height: 52px;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.ant-select-item-option-content {
+  display: flex;
+
+  .image {
+    height: 50px;
+    width: 40px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+
+  .option-wrapper {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.ant-select-dropdown {
+  background-color: #232929;
+  margin-left: -16px;
+  .ant-select-item-option {
+    color: #b1bbbb;
+  }
+
+  .ant-select-item-option.ant-select-item-option-active {
+    color: black;
+  }
+}

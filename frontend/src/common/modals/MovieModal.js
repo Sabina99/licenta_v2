@@ -37,7 +37,7 @@ function MovieModal(props) {
   }, [movieDetails]);
 
   if (!movie) {
-    setMovie(props.searchedMovie);
+    // setMovie(props.searchedMovie);
   }
 
   const dispatch = useDispatch();
@@ -111,7 +111,7 @@ function MovieModal(props) {
         <CloseIcon className="close-modal" onClick={closeModal} />
         <div className="movie-modal-content">
           <div style={{  height: "100%", width: "45%"}}>
-            <div className="movie-poster" style={{backgroundImage: `url(${movie.image})`}} />
+            <div className="movie-poster" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + movie.image_src})`}} />
           </div>
           <div className="movie-details">
             <div className="movie-details-title">

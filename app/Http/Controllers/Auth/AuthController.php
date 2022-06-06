@@ -140,4 +140,19 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function users(Request $request)
+    {
+        $name = $request->get('name');
+        $qb = User::query();
+
+        if ($name) {
+            $qb->where('name', 'LIKE', "%$name%");
+        }
+
+        return response()->json($qb->get()->toArray());
+    }
+
 }

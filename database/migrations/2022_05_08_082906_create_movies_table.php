@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('plot');
             $table->text('imdb_rating');
             $table->text('genres');
+            $table->text('image_src');
             $table->text('external_id');
             $table->timestamps();
         });

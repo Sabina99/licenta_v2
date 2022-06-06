@@ -54,8 +54,16 @@ function Movies() {
 
     return (
       <div key={movie.id} className="row-item" onClick={() => showModal(movie)}>
-        {/*<div className="movie-image" style={{backgroundImage: `url(${movie.image})`}}></div>*/}
-        <div className="movie-image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + '/storage/images/jonny.jpg'})`}}></div>
+        {/*<LazyLoadImage*/}
+        {/*  effect="blur"*/}
+        {/*  // src={API_BASE_URL.replace('/api', '') + movie.image_src}*/}
+        {/*  src={`http://localhost:3000/${movie.image_src.replace('storage/', '')}`}*/}
+        {/*  className="movie-image"*/}
+        {/*  width={170}*/}
+        {/*  height={257}*/}
+        {/*/>*/}
+        <img src={API_BASE_URL.replace('/api', '') + movie.image_src} className="movie-image" loading="auto" alt="..."/>
+
         <div className="title-wrapper">
           <div className="title">
             {movie.title}
@@ -93,7 +101,7 @@ function Movies() {
     <div className="movies-container">
       <Menu/>
         <div className="movies-wrapper">
-          <MovieModal  isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} movie={movie} setMovie={setMovie}/>
+          <MovieModal  isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} movie={movie} setMovie={setMovie} setShouldClear={closeModal}/>
           {chunkMovies ?
             <div>
               <div className="header">

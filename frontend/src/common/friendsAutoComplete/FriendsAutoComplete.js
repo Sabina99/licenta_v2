@@ -1,27 +1,26 @@
-import './CustomAutoComplete.scss';
+import './FriendsAutoComplete.scss';
 
 import {AutoComplete} from "antd";
 import React, {useEffect, useState} from "react";
-import {getAllMovies} from "../../actions/movies";
 import {useDispatch} from "react-redux";
+import {getUsers} from "../../actions/auth";
 const { Option } = AutoComplete;
 
-const CustomAutoComplete = (props) => {
-
+const FriendsAutoComplete = (props) => {
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
 
   const onSearch = (searchText) => {
     setValue(searchText);
-    dispatch(getAllMovies('?name=' + searchText))
-      .then((movies) => setOptions(movies));
+    dispatch(getUsers('?name=' + searchText))
+      .then((users) => setOptions(users));
   };
 
 
   const onSelect = (data) => {
     setValue(data);
-    dispatch(getAllMovies())
+    dispatch(getUsers())
       .then((movies) => {
         props.setMovie(movies.find(movie => movie.title === data));
         props.setIsModalVisible(true);
@@ -56,4 +55,4 @@ const CustomAutoComplete = (props) => {
   </div>
 }
 
-export default CustomAutoComplete;
+export default FriendsAutoComplete;

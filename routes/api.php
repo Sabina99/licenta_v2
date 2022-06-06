@@ -23,6 +23,8 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::middleware('auth:api')->group(function() {
         Route::post('logout', 'App\Http\Controllers\Auth\AuthController@logout')->name('logout.api');
         Route::post('refresh', 'App\Http\Controllers\Auth\AuthController@refresh')->name('refresh.api');
+        Route::get('users', 'App\Http\Controllers\AuthController@users')->name('users.index');
+
         Route::get('movies', 'App\Http\Controllers\MovieController@index')->name('movies.index');
         Route::get('movies/{movie}', 'App\Http\Controllers\MovieController@show')->name('movies.show');
         Route::post('movies/{movie}/{status}', 'App\Http\Controllers\MovieController@likeMovie')->name('movies.like');
@@ -33,6 +35,10 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('rating', 'App\Http\Controllers\UserMovieController@store')->name('user_movie.store');
         Route::post('rating', 'App\Http\Controllers\UserMovieController@store')->name('user_movie.store');
         Route::put('rating', 'App\Http\Controllers\UserMovieController@update')->name('user_movie.update');
+
+
+        Route::get('following', 'App\Http\Controllers\FollowerController@following')->name('following.index');
+        Route::post('unfollow/{user}', 'App\Http\Controllers\FollowerController@unfollow')->name('unfollow.api');
 
         Route::get('followers/{user}', 'App\Http\Controllers\FollowerController@index')->name('followers.index');
         Route::get('followers/{follower}', 'App\Http\Controllers\FollowerController@index')->name('followers.show');

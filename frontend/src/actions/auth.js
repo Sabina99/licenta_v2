@@ -4,6 +4,7 @@ import {
   LOGOUT,
   SET_MESSAGE,
   REFRESH_USER_SUCCESS,
+  GET_MOVIES_SUCCESS,
 } from "../types/types";
 
 import instance from "../plugins/axios";
@@ -65,4 +66,19 @@ export const getUser = () => (dispatch) => {
 
       return response?.data;
     }, (error) =>  handleError(error, dispatch))
+};
+
+export const getUsers = (params = null) => (dispatch) => {
+
+  return instance.get('/movies' + (params || '')).then(
+    (response) => {
+
+      if (!params) {
+        dispatch({ type: GET_MOVIES_SUCCESS , payload: response?.data});
+      }
+
+      return response?.data;
+    },
+    (error) => handleError(error, dispatch)
+  );
 };
