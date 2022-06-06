@@ -2,23 +2,39 @@ import './CustomAutoComplete.scss';
 
 import {AutoComplete} from "antd";
 import SearchIcon from "@mui/icons-material/Search";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import {getAllMovies} from "../../actions/movies";
 import {useDispatch} from "react-redux";
+import MovieModal from "../modals/MovieModal";
 const { Option } = AutoComplete;
 
-const CustomAutoComplete = () => {
+const CustomAutoComplete = (props) => {
+
   const [options, setOptions] = useState([]);
+  const [value, setValue] = useState('');
   const dispatch = useDispatch();
 
   const onSearch = (searchText) => {
+    setValue(searchText);
     dispatch(getAllMovies('?name=' + searchText))
       .then((movies) => setOptions(movies));
   };
 
+
   const onSelect = (data) => {
-    console.log('onSelect', data);
+    setValue(data);
+    dispatch(getAllMovies())
+      .then((movies) => {
+        props.setMovie(movies.find(movie => movie.title === data));
+        props.setIsModalVisible(true);
+      });
   };
+
+  useEffect(() => {
+    if (!props.movie) {
+      setValue('');
+    }
+  }, [props.movie]);
 
   return <div className="autocomplete-wrapper" style={{position: 'relative'}}>
     <AutoComplete
@@ -26,6 +42,7 @@ const CustomAutoComplete = () => {
       onSearch={onSearch}
       placeholder="Search movie"
       className="input"
+      value={value}
     >
       {options.map((el) => (
         <Option key={el.id} value={el.title}>

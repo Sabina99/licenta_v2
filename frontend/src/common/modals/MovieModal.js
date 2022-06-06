@@ -24,6 +24,7 @@ function MovieModal(props) {
   const movieDetails = useSelector((state) => state.movie);
 
   const closeModal = () => {
+    props.setShouldClear(true);
     props.setMovie(null);
     props.setIsModalVisible(false);
   }
@@ -34,6 +35,10 @@ function MovieModal(props) {
       setRating(movieDetails.movie.rating);
     }
   }, [movieDetails]);
+
+  if (!movie) {
+    setMovie(props.searchedMovie);
+  }
 
   const dispatch = useDispatch();
   const onLikeMovie = (movie, status) => {

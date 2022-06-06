@@ -10,9 +10,12 @@ import {getAllMovies, saveComment, likeMovie} from "../../actions/movies";
 import {API_BASE_URL} from "../../env";
 import {Input} from "antd";
 import AddCommentIcon from '@mui/icons-material/AddComment';
+import MovieModal from "../../common/modals/MovieModal";
 
 function Home() {
-  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true)
+  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [shouldClear, setShouldClear] = useState(false);
   const {movies} = useSelector((state) => state.movies);
   const [message, setMessage] = useState({});
   const [movie, setMovie] = useState();
@@ -121,13 +124,17 @@ function Home() {
     setShouldScrollToBottom(false)
   }
 
+  if (shouldClear) {
+    setShouldClear(false);
+  }
+
   return (
     <div className="home-container">
       <Menu/>
       <div className="home-wrapper">
-        <AutoComplete/>
-
+        <AutoComplete shouldClear={shouldClear} setIsModalVisible={setIsModalVisible} setMovie={setMovie} movie={movie}/>
         <div>
+          {movie ? <MovieModal setShouldClear={setShouldClear} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} searchedMovie={movie} setMovie={setMovie}/> : null}
           {
             movies &&
             <VirtualScroll
