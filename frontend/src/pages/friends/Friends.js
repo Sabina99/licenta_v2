@@ -1,14 +1,17 @@
 import './Friends.scss';
 import Menu from "../../common/menu/Menu";
-import AutoComplete from "../../common/customAutoComplete/CustomAutoComplete";
+import AutoComplete from "../../common/friendsAutoComplete/FriendsAutoComplete";
 import {useDispatch, useSelector} from "react-redux";
 import {getFriends, removeFriend} from "../../actions/friends";
 import {API_BASE_URL} from "../../env";
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import {getUser} from "../../actions/auth";
+import React from "react";
+import {useNavigate} from "react-router-dom";
 
 function Friends() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {friends} = useSelector((state) => state.friends);
 
@@ -30,9 +33,9 @@ function Friends() {
 
     return (
       <div className="item">
-        <div className="profile-image" style={{backgroundImage: `url(${backgroundImage})`}}></div>
+        <div className="profile-image" style={{backgroundImage: `url(${backgroundImage})`}} onClick={() => navigate('/friend-profile/' + follow.id)}></div>
         <div className="details-wrapper">
-          <div className="details">
+          <div className="details" onClick={() => navigate('/friend-profile/' + follow.id)}>
             <div className="name">{follow.name}</div>
             <div className="sub-name">Followed by: {follow.followers.length} people</div>
           </div>
@@ -46,7 +49,7 @@ function Friends() {
     <div className="friends-container">
       <Menu/>
       <div className="friends-wrapper">
-        <AutoComplete/>
+        <AutoComplete />
 
         <div className="friends-list List">
           { renderFriendsList() }

@@ -4,6 +4,7 @@ import Register from "../pages/register/Register";
 import Home from "../pages/home/Home";
 import Profile from "../pages/profile/Profile";
 import Friends from "../pages/friends/Friends";
+import FriendProfile from "../pages/friendProfile/FriendProfile";
 import MustWatch from "../pages/must-watch/MustWatch";
 
 export const routes = [
@@ -41,6 +42,12 @@ export const routes = [
     path: "/friends",
     name: "friends",
     element: Friends,
+    private: true,
+  },
+  {
+    path: "/friend-profile/:id",
+    name: "friendProfile",
+    element: FriendProfile,
     private: true,
   },
   {

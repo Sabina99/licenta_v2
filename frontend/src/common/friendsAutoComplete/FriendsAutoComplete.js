@@ -1,15 +1,18 @@
 import './FriendsAutoComplete.scss';
 
 import {AutoComplete} from "antd";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 import {getUsers} from "../../actions/auth";
+import {API_BASE_URL} from "../../env";
+import {useNavigate} from "react-router-dom";
 const { Option } = AutoComplete;
 
 const FriendsAutoComplete = (props) => {
   const [options, setOptions] = useState([]);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSearch = (searchText) => {
     setValue(searchText);
@@ -20,36 +23,34 @@ const FriendsAutoComplete = (props) => {
 
   const onSelect = (data) => {
     setValue(data);
-    dispatch(getUsers())
-      .then((movies) => {
-        props.setMovie(movies.find(movie => movie.title === data));
-        props.setIsModalVisible(true);
-      });
   };
 
-  useEffect(() => {
-    if (!props.movie) {
-      setValue('');
+  const renderOptions = () => options.map((el) => {
+    let backgroundImage = API_BASE_URL.replace('/api', '') + el.image;
+    if (!el.image) {
+      backgroundImage = "../../../images/default-profile-picture.jpg"
     }
-  }, [props.movie]);
+
+    return (
+      <Option key={el.id} value={el.name}>
+        <div className="image" style={{backgroundImage: `url(${backgroundImage})`}} onClick={() => navigate('/friend-profile/' + el.id)}></div>
+        <div className="option-wrapper" onClick={() => navigate('/friend-profile/' + el.id)}>
+          <span style={{fontWeight: 600, fontSize: 18}}>{el.name}</span>
+          <span>{el.username}</span>
+        </div>
+      </Option>
+    )
+  })
 
   return <div className="autocomplete-wrapper" style={{position: 'relative'}}>
     <AutoComplete
       onSelect={onSelect}
       onSearch={onSearch}
-      placeholder="Search movie"
+      placeholder="Search user"
       className="input"
       value={value}
     >
-      {options.map((el) => (
-        <Option key={el.id} value={el.title}>
-          <div className="image" style={{backgroundImage: `url(${el.image})`}}></div>
-          <div className="option-wrapper">
-            <span style={{fontWeight: 600, fontSize: 18}}>{el.title}</span>
-            <span>{el.genres}</span>
-          </div>
-        </Option>
-      ))}
+      {renderOptions()}
 
     </AutoComplete>
   </div>

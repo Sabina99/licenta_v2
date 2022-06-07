@@ -30,12 +30,14 @@
           background-size: cover;
           border-radius: 15px;
           margin-right: 15px;
+          cursor: pointer;
         }
 
         .details-wrapper {
           display: flex;
           justify-content: space-between;
           flex: 1;
+          cursor: pointer;
 
           .details {
             display: flex;

@@ -155,4 +155,12 @@ class AuthController extends Controller
         return response()->json($qb->get()->toArray());
     }
 
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function user(User $user)
+    {
+        return response()->json($user->toArray());
+    }
+
 }

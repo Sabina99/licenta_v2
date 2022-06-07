@@ -1,0 +1,79 @@
+.friend-profile-container {
+  display: flex;
+
+  .friend-profile-wrapper {
+    width: 100%;
+    background-color: #232323;
+
+    .cover-image {
+      width: 100%;
+      height: 15%;
+      background-color: #384745;
+    }
+
+    .friend-profile-content {
+      padding: 0 30px;
+
+      .profile-details-wrapper {
+        display: flex;
+
+        .profile-image {
+          width: 150px;
+          height: 150px;
+          background-position: center;
+          background-size: cover;
+          border-radius: 50%;
+          margin-right: 15px;
+          margin-top: -75px;
+        }
+
+        .details {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex: 1;
+          margin: 15px 0;
+
+          .name-wrapper {
+            color: #B1BBBB;
+            font-size: 17px;
+            font-family: Gothic, serif;
+
+            .name {
+              color: #B1BBBB;
+              font-size: 25px;
+              font-family: Gothic, serif;
+              margin-bottom: 5px;
+            }
+
+            span {
+              color: #7e8787;
+            }
+          }
+
+          .follow {
+            background: white;
+            display: flex;
+            height: fit-content;
+            padding: 10px 30px;
+            font-size: 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: Gothic, serif;
+
+            &:hover {
+              background: #edbd28;
+            }
+          }
+        }
+      }
+
+      .description {
+        max-width: 50vw;
+        color: #B1BBBB;
+        font-size: 16px;
+        font-family: Gothic, serif;
+      }
+    }
+  }
+}

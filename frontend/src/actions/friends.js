@@ -1,5 +1,5 @@
 import instance from "../plugins/axios";
-import {GET_FRIENDS_SUCCESS, UNFOLLOW_FRIEND} from "../types/types";
+import {GET_FRIENDS_SUCCESS, UNFOLLOW_FRIEND, FOLLOW_FRIEND} from "../types/types";
 import {handleError} from "./common";
 
 export const getFriends = () => (dispatch) => {
@@ -20,6 +20,19 @@ export const removeFriend = (friendId) => (dispatch) => {
     (response) => {
 
       dispatch({ type: UNFOLLOW_FRIEND });
+
+      return response?.data;
+    },
+    (error) => handleError(error, dispatch)
+  );
+};
+
+export const addFriend = (friendId) => (dispatch) => {
+
+  return instance.post('/follow/' + friendId).then(
+    (response) => {
+
+      dispatch({ type: FOLLOW_FRIEND });
 
       return response?.data;
     },

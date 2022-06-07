@@ -4,7 +4,7 @@ import {
   LOGOUT,
   SET_MESSAGE,
   REFRESH_USER_SUCCESS,
-  GET_MOVIES_SUCCESS,
+  GET_USERS_SUCCESS
 } from "../types/types";
 
 import instance from "../plugins/axios";
@@ -69,13 +69,22 @@ export const getUser = () => (dispatch) => {
 };
 
 export const getUsers = (params = null) => (dispatch) => {
-
-  return instance.get('/movies' + (params || '')).then(
+  return instance.get('/users' + (params || '')).then(
     (response) => {
 
       if (!params) {
-        dispatch({ type: GET_MOVIES_SUCCESS , payload: response?.data});
+        dispatch({ type: GET_USERS_SUCCESS , payload: response?.data});
       }
+
+      return response?.data;
+    },
+    (error) => handleError(error, dispatch)
+  );
+};
+
+export const getFriend = (id) => (dispatch) => {
+  return instance.get('/user/' + id).then(
+    (response) => {
 
       return response?.data;
     },

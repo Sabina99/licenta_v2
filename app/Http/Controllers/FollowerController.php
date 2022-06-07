@@ -38,14 +38,15 @@ class FollowerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreFollowerRequest $request
      * @return Response
      */
-    public function store(User $user, StoreFollowerRequest $request)
+    public function store(User $user)
     {
+        $loggedInUser = Auth::user();
+
         Follower::create([
-            'user_id' => $user->id,
-            'follow_id' => $request->get('follow_id')
+            'user_id' => $loggedInUser->id,
+            'follow_id' => $user->id
         ]);
     }
 
