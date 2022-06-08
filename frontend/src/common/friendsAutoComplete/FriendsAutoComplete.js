@@ -33,10 +33,12 @@ const FriendsAutoComplete = (props) => {
 
     return (
       <Option key={el.id} value={el.name}>
-        <div className="image" style={{backgroundImage: `url(${backgroundImage})`}} onClick={() => navigate('/friend-profile/' + el.id)}></div>
-        <div className="option-wrapper" onClick={() => navigate('/friend-profile/' + el.id)}>
-          <span style={{fontWeight: 600, fontSize: 18}}>{el.name}</span>
-          <span>{el.username}</span>
+        <div onClick={() => navigate('/friend-profile/' + el.id)} style={{display: 'flex', width: '100%'}}>
+          <div className="image" style={{backgroundImage: `url(${backgroundImage})`}}></div>
+          <div className="option-wrapper">
+            <span style={{fontWeight: 600, fontSize: 18}}>{el.name}</span>
+            <span>{el.username}</span>
+          </div>
         </div>
       </Option>
     )
