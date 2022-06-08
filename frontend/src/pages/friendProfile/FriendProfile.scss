@@ -61,6 +61,7 @@
             cursor: pointer;
             font-family: Gothic, serif;
 
+            &.active,
             &:hover {
               background: #edbd28;
             }

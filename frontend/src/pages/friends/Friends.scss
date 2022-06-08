@@ -9,7 +9,7 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      height: calc(100vh - 93px);
+      max-height: calc(100vh - 93px);
       overflow: auto;
 
       .item {
