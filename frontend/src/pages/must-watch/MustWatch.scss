@@ -3,5 +3,23 @@
 
   .must-watch-wrapper {
     width: 100%;
+    background: #232323;
+
+    .MuiButtonBase-root {
+      max-width: 100%;
+      width: 50%;
+      color: #B1BBBB;
+    }
+    .MuiTabs-indicator {
+      background-color: #edbd28;
+    }
+
+    .Mui-selected {
+      color: #edbd28;
+    }
+
+    .MuiSvgIcon-root {
+      color: #edbd28;
+    }
   }
 }

@@ -8,7 +8,7 @@ const CustomSearch = (props) => {
 
   const onChange = (data) => {
     setInputValue(data.target.value)
-    props.onChange(inputValue)
+    props.onChange(data.target.value)
   }
 
   return <div className="input-wrapper">

@@ -22,6 +22,7 @@ instance.interceptors.response.use(function (response) {
 }, function (error) {
 
   if (error?.response?.status === 401) {
+    localStorage.removeItem('token')
     window.navigate('/login');
   }
   return Promise.reject(error);

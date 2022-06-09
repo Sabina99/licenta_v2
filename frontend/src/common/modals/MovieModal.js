@@ -104,8 +104,6 @@ function MovieModal(props) {
     movie ? <Modal
       open={props.isModalVisible}
       onClose={closeModal}
-      aria-labmovieledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
     >
       <Box className="movie-modal">
         <CloseIcon className="close-modal" onClick={closeModal} />

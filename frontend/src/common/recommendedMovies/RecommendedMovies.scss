@@ -1,0 +1,223 @@
+.recommended-container {
+  .recommended-wrapper {
+
+  }
+
+}
+
+.recommended-buttons {
+
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+
+  .buttons-label {
+    font-family: Gothic, serif;
+    color: white;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  .button {
+    font-size: 16px;
+    font-family: Gothic, serif;
+    background: #707070;
+    width: -moz-fit-content;
+    padding: 10px 30px;
+    color: #B1BBBB;
+    border-radius: 25px;
+    cursor: pointer;
+    border: #707070 solid 1px;
+    width: 246px;
+    font-weight: bold;
+    text-align: center;
+  }
+}
+
+.recommended-modal {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.choose-friends-modal {
+  background-color: #000000;
+  opacity: 0.98;
+  top: 40%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #030101;
+  border-radius: 25px;
+  position: relative;
+  height: 72%;
+  width: 30%;
+
+  .choose-modal-content {
+
+    .choose-title {
+      font-size: 45px;
+    }
+  }
+}
+
+.chosen-friends-modal {
+  background-color: #000000;
+  opacity: 0.98;
+  top: 40%;
+  right: -18%;
+  transform: translate(-50%, -50%);
+  border: 2px solid #030101;
+  border-radius: 25px;
+  position: relative;
+  height: 72%;
+  width: 30%;
+  .choose-modal-content {
+
+    .choose-title {
+      font-size: 45px;
+    }
+  }
+}
+
+.recommended-modal {
+  background-color: #000000;
+  opacity: 0.98;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70vw;
+  height: 45vw;
+  border: 2px solid #030101;
+  border-radius: 25px;
+  position: relative;
+}
+
+.recommended-container-wrapper {
+  display: flex;
+  justify-content: space-around;
+
+  .choose-friends-container {
+    background-color: #0C0C0C;
+    opacity: 0.8;
+    padding: 20px;
+    border-radius: 25px;
+    position: relative;
+    height: 520px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .choose-title {
+      color: white;
+      font-size: 20px;
+      font-family: Gothic, serif;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .ant-input-affix-wrapper {
+      width: 100%;
+      margin: 0;
+
+      .MuiSvgIcon-root {
+        color: white;
+      }
+    }
+
+    .ant-input-prefix {
+      margin-right: 5px;
+    }
+  }
+
+  .chosen-friends-container {
+    height: 520px;
+    opacity: 0.8;
+    background-color: #0C0C0C;
+    padding: 20px;
+    border-radius: 25px;
+    position: relative;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+
+    .chosen-title {
+      color: white;
+      font-size: 20px;
+      font-family: Gothic, serif;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.choose-row-item {
+  display: flex;
+  height: 80px;
+  background-color: black;
+  margin-bottom: 20px;
+  border-radius: 25px;
+  align-items: center;
+  margin-right: 20px;
+
+  .user-image {
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    border-radius: 15px;
+    margin: 0 10px;
+  }
+
+  .friend-container {
+    padding-right: 12px;
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+
+    .friend-details {
+      width: 100%;
+
+      .name-wrapper {
+        color: white;
+        width: 100%;
+        display: flex;
+        margin-bottom: 2px;
+
+        .name {
+          max-width: 200px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .followed-by {
+        color: white;
+        font-size: 12px;
+        margin-bottom: 3px;
+      }
+
+      .more-details {
+        color: white;
+        font-size: 14px;
+        text-decoration: underline;
+        font-weight: 600;
+        margin-bottom: 5px;
+
+        &:hover {
+          color: #c59e27;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .MuiCheckbox-root {
+      width: auto;
+    }
+
+    .MuiCheckbox-root .MuiSvgIcon-root {
+      color: white;
+    }
+  }
+}
