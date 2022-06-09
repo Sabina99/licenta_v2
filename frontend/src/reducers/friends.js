@@ -1,7 +1,8 @@
-import {GET_FRIENDS_SUCCESS} from "../types/types";
+import {GET_FRIEND_SUCCESS, GET_FRIENDS_SUCCESS} from "../types/types";
 
 const initialState = {
-  friends: null
+  friends: null,
+  friend: null
 };
 
 export default function (state = initialState, action) {
@@ -12,6 +13,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         friends: payload,
+      };
+    case GET_FRIEND_SUCCESS:
+      return {
+        ...state,
+        friend: payload,
       };
     default:
       return state;

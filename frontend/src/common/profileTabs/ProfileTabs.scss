@@ -1,0 +1,58 @@
+.profile-tabs-wrapper {
+  .MuiTabs-scroller {
+    .MuiTabs-flexContainer {
+      .MuiButtonBase-root {
+        width: 25%;
+        color: #b1bbad;
+      }
+      .Mui-selected {
+        color: #edbd28;
+      }
+    }
+
+    .MuiTabs-indicator {
+      background-color: #edbd28;
+    }
+  }
+
+  .MuiTypography-root {
+    display: flex;
+    flex-wrap: wrap;
+    //justify-content: center;
+    max-height: calc(100vh - 380px);
+    overflow: auto;
+    margin-right: -20px;
+
+    .item {
+      background: #1C1C1C;
+      display: flex;
+      margin: 10px;
+      padding: 10px;
+      width: 300px;
+
+      .image {
+        width: 100px;
+        height: 100px;
+        background-position: center;
+        background-size: cover;
+        border-radius: 15px;
+        margin-right: 15px;
+        cursor: pointer;
+      }
+
+      .name {
+        color: #B1BBBB;
+        font-size: 20px;
+        font-family: Gothic, serif;
+        margin-bottom: 5px;
+      }
+
+      .rating {
+        color: #B1BBBB;
+        font-size: 16px;
+        font-family: Gothic, serif;
+      }
+    }
+  }
+
+}

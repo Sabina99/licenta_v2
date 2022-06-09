@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {API_BASE_URL} from "../../env";
 import React, {useEffect, useState} from "react";
 import {addFriend, getFriends, removeFriend} from "../../actions/friends";
+import ProfileTabs from "../../common/profileTabs/ProfileTabs";
 
 function FriendProfile() {
   const [friend, setFriend] = useState();
@@ -90,6 +91,7 @@ function FriendProfile() {
             <div className="description">
               {friend.description}
             </div>
+            <ProfileTabs/>
           </div>
         </div>
       }

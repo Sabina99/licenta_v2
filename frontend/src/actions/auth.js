@@ -4,7 +4,8 @@ import {
   LOGOUT,
   SET_MESSAGE,
   REFRESH_USER_SUCCESS,
-  GET_USERS_SUCCESS
+  GET_USERS_SUCCESS,
+  GET_FRIEND_SUCCESS
 } from "../types/types";
 
 import instance from "../plugins/axios";
@@ -85,6 +86,8 @@ export const getUsers = (params = null) => (dispatch) => {
 export const getFriend = (id) => (dispatch) => {
   return instance.get('/user/' + id).then(
     (response) => {
+
+      dispatch({ type: GET_FRIEND_SUCCESS , payload: response?.data});
 
       return response?.data;
     },
