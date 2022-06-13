@@ -51,12 +51,14 @@
   font-weight: normal;
 }
 
+.ratings-tab::-webkit-scrollbar,
 .following-tab::-webkit-scrollbar,
 .commentsList::-webkit-scrollbar,
 .List::-webkit-scrollbar {
   width: 7px;
 }
 
+.ratings-tab::-webkit-scrollbar-track,
 .following-tab::-webkit-scrollbar-track,
 .commentsList::-webkit-scrollbar-track,
 .List::-webkit-scrollbar-track {
@@ -64,6 +66,7 @@
   border-radius: 6px;
 }
 
+.ratings-tab::-webkit-scrollbar-thumb,
 .following-tab::-webkit-scrollbar-thumb,
 .commentsList::-webkit-scrollbar-thumb,
 .List::-webkit-scrollbar-thumb {
