@@ -19,7 +19,7 @@ function FriendProfile() {
   const loggedUser = user?.user;
 
   useEffect(() => {
-    if (!friend) {
+    if (!friend || id != friend?.id) {
       dispatch(getFriend(id))
         .then((friend) => setFriend(friend));
     }
@@ -29,7 +29,7 @@ function FriendProfile() {
     }
 
     setStatus(isFriend ? 'Following' : 'Follow')
-  }, [friend, loggedUser, isFriend]);
+  }, [friend, loggedUser, isFriend, id]);
 
 
   let backgroundImage = API_BASE_URL.replace('/api', '') + friend?.image;
@@ -75,7 +75,7 @@ function FriendProfile() {
               <div className="details">
                 <div className="name-wrapper">
                   <div className="name">{friend.name} ({friend.age})</div>
-                  <div className="followers">2,003 <span>followers</span></div>
+                  <div className="followers">{friend.followers.length} <span>followers</span></div>
                 </div>
                 <div
                   className={"follow " + (isFriend ? 'active' : '')}

@@ -82,7 +82,7 @@ function MovieModal(props) {
 
   const submitMessage = (e, movieId) => {
     if (e.key === 'Enter' && message[movieId]) {
-      dispatch(saveComment(movie, message[movieId]))
+      dispatch(saveComment(movieId, message[movieId]))
         .then(() => dispatch(getAllMovies()))
         .then(() => setMessage({...message, [movieId]: ''}))
         .then(() => scrollToBottom())

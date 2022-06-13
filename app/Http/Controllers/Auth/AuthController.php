@@ -160,7 +160,15 @@ class AuthController extends Controller
      */
     public function user(User $user)
     {
-        return response()->json($user->load('followers')->load('userMovies')->load('userMovies.movie')->toArray());
+        return response()->json($user
+            ->load('following')
+            ->load('following.following')
+            ->load('following.userMovies.movie')
+            ->load('followers')
+            ->load('userMovies')
+            ->load('userMovies.movie')
+            ->toArray()
+        );
     }
 
 }

@@ -51,17 +51,20 @@
   font-weight: normal;
 }
 
+.following-tab::-webkit-scrollbar,
 .commentsList::-webkit-scrollbar,
 .List::-webkit-scrollbar {
-  width: 1em;
+  width: 7px;
 }
 
+.following-tab::-webkit-scrollbar-track,
 .commentsList::-webkit-scrollbar-track,
 .List::-webkit-scrollbar-track {
   background: #707070;
   border-radius: 6px;
 }
 
+.following-tab::-webkit-scrollbar-thumb,
 .commentsList::-webkit-scrollbar-thumb,
 .List::-webkit-scrollbar-thumb {
   background-color: #EDBD28;

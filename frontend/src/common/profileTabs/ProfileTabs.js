@@ -1,10 +1,12 @@
-import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import './ProfileTabs.scss';
 import {useSelector} from "react-redux";
+import React from "react";
+import RatingsTab from "../ratingsTab/RatingsTab";
+import FollowingTab from "../followingTab/FollowingTab";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -52,28 +54,16 @@ function ProfileTabs() {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {friend.user_movies.map((el) => (
-          <div key={el.id} className="item">
-            <div className="image" style={{backgroundImage: `url(${el.movie.image})`}}></div>
-            <div className="details-wrapper">
-              <div className="details">
-                <div className="name">{el.movie.title}</div>
-                <div className="rating">Rating: {el.rating}</div>
-                {/*<div className="sub-name">Followed by: {follow.followers.length} people</div>*/}
-              </div>
-              {/*<div className="close-btn" onClick={() => onRemoveFriend(follow.id)}><PersonRemoveIcon/></div>*/}
-            </div>
-          </div>
-        ))}
+        <RatingsTab movies={friend.user_movies} showRating={true}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <FollowingTab users={friend.following} changeUser={() => setValue(0)}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        <RatingsTab movies={friend.user_movies.filter((el) => el.is_liked === 1)}/>
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item 4
+        <RatingsTab movies={friend.user_movies.filter((el) => el.is_liked === 0)}/>
       </TabPanel>
     </Box>
   );
