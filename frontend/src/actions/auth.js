@@ -39,6 +39,10 @@ export const login = (formData) => (dispatch) => {
     }, (error) =>  handleError(error, dispatch))
 };
 
+export const edit = (formData) => (dispatch) => instance
+  .post('/user/edit', formData, {headers: { 'content-type': 'multipart/form-data' }})
+  .then((response) => response?.data, (error) =>  handleError(error, dispatch));
+
 export const logout = () => (dispatch) => {
 
   return instance.post('/logout').then(

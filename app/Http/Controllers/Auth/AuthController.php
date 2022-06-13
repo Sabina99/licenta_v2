@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -48,6 +49,31 @@ class AuthController extends Controller
                 'type' => 'bearer',
             ]
         ]);
+
+    }
+
+    public function edit(Request $request)
+    {
+        /** @var User $user */
+        $user = Auth::user();
+
+        $getImage = $request->file('new_image');
+        if ($getImage) {
+            $imageName = time() . '.' . $getImage->extension();
+
+            Storage::disk('public')->put($imageName, file_get_contents($getImage));
+
+            $user->image = '/storage/images/' . $imageName;
+        }
+
+        $data = $request->only('name', 'age', 'description');
+
+        $user->name = $data['name'];
+        $user->age = $data['age'];
+        $user->description = $data['description'];
+        $user->save();
+
+        return response()->json($user->toArray());
 
     }
 

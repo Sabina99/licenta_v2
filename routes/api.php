@@ -23,6 +23,7 @@ Route::group(['middleware' => ['json.response']], function () {
     Route::middleware('auth:api')->group(function() {
         Route::post('logout', 'App\Http\Controllers\Auth\AuthController@logout')->name('logout.api');
         Route::post('refresh', 'App\Http\Controllers\Auth\AuthController@refresh')->name('refresh.api');
+        Route::post('user/edit', 'App\Http\Controllers\Auth\AuthController@edit')->name('edit.api');
         Route::get('users', 'App\Http\Controllers\Auth\AuthController@users')->name('users.index');
         Route::get('user/{user}', 'App\Http\Controllers\Auth\AuthController@user')->name('user.index');
 

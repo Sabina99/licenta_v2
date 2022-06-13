@@ -1,14 +1,13 @@
 import './ContainerEdit.scss';
 import {Form, Button, Input} from "antd";
-import CustomInput from "../customInput/CustomInput";
 import TextArea from "antd/es/input/TextArea";
 
-const ContainerEdit = () => {
-  const user = {};
+const ContainerEdit = ({user, editUser}) => {
+
   return (
     <Form
       name="profile_form"
-      onFinish={(values) => console.log(values)}
+      onFinish={editUser}
     >
       <Form.Item>
         <div className="input-groups">
@@ -19,6 +18,7 @@ const ContainerEdit = () => {
             type="text"
             defaultValue={user.name}
             className="input-edit"
+            onChange={(a) => user.name = a.target.value}
           />
 
           <label htmlFor="age">Age</label>
@@ -28,6 +28,7 @@ const ContainerEdit = () => {
             type="text"
             defaultValue={user.age}
             className="input-edit"
+            onChange={(a) => user.age = a.target.value}
           />
 
           <label htmlFor="email">Email</label>
@@ -36,6 +37,7 @@ const ContainerEdit = () => {
             type="text"
             defaultValue={user.email}
             className="input-edit"
+            disabled
           />
         </div>
         <div className="input-groups">
@@ -44,9 +46,10 @@ const ContainerEdit = () => {
             id="description"
             placeholder="Description"
             type="textarea"
-            defaultValue={user.textarea}
+            defaultValue={user.description}
             className="input-edit"
             size="middle"
+            onChange={(a) => user.description = a.target.value}
           />
         </div>
       </Form.Item>
