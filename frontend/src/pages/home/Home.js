@@ -127,6 +127,10 @@ function Home() {
   if (shouldClear) {
     setShouldClear(false);
   }
+  const closeModal = () => {
+    setMovie(null);
+    setIsModalVisible(false);
+  }
 
   return (
     <div className="home-container">

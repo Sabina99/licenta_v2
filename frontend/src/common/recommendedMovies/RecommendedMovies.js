@@ -2,6 +2,7 @@ import './RecommendedMovies.scss';
 import {getAllMovies, getMovies} from "../../actions/movies";
 import {useDispatch, useSelector} from "react-redux";
 import {getFriends} from "../../actions/friends";
+import {getRecommended} from "../../actions/recommended";
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import {API_BASE_URL} from "../../env";
 import {Checkbox, OutlinedInput} from "@mui/material";
@@ -9,14 +10,20 @@ import CustomSearch from "../customSearch/CustomSearch";
 import React, {useState, useEffect} from "react";
 import {cloneDeep} from "lodash/lang";
 import {useNavigate} from "react-router-dom";
+import log from "tailwindcss/lib/util/log";
 
 function RecommendedMovies(props) {
 
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(1);
+  const [recommendedOne, setRecommendedOne] = useState([]);
+  const [recommendedOTwo, setRecommendedTwo] = useState([]);
+  const [recommendedOThree, setRecommendedThree] = useState([]);
+
   const { value, index } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {movies} = useSelector((state) => state.movies);
+  const {recommendations} = useSelector((state) => state.recommended);
   const {friends} = useSelector((state) => state.friends);
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [filteredFriends, setFilteredFriends] = useState([]);
@@ -25,6 +32,11 @@ function RecommendedMovies(props) {
   if (!friends) {
     dispatch(getFriends())
   }
+  if (!recommendations.length) {
+    dispatch(getRecommended([12])).then(res => console.log(res));
+  }
+  console.log(recommendations)
+
 
   useEffect(() => {
     setFilteredFriends(friends);

@@ -78,7 +78,7 @@ function Movies() {
       .then(() => setBatchNumber(batchNumber + 1));
   };
 
-  let chunkSize = 6;
+  let chunkSize = 5;
   if (window.outerWidth < 950) {
     chunkSize = 2
   }

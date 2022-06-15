@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserMovieRequest;
 use App\Http\Requests\UpdateUserMovieRequest;
+use App\Models\Movie;
 use App\Models\UserMovie;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class UserMovieController extends Controller
 {
@@ -82,5 +85,50 @@ class UserMovieController extends Controller
     public function destroy(UserMovie $userMovie)
     {
         //
+    }
+
+    public function recommended(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if ($request->ids && count($request->ids) > 0) {
+            $userIds = $request->ids;
+        } else {
+            $userIds = [];
+        }
+        $movie = UserMovie::where('user_id', $user->id)->get()->toArray();
+        $sorted = collect($movie)->sortByDesc('rating');
+
+        $stringOutput = 0;
+        $userIds[] = $user->id;
+        $index = 0;
+        while (!$stringOutput || $index > count($sorted)) {
+            $movie = Movie::where('id',  $sorted[$index]['movie_id'])->first();
+            $process = new Process(['python3', base_path() . '/recommended/main.py', $movie->title, implode(',', $userIds)]);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                throw new ProcessFailedException($process);
+            }
+
+            $stringOutput = $process->getOutput();
+            $index++;
+        }
+        return $stringOutput;
+
+        $parts = [];
+        $tok = strtok($stringOutput, " \n\t");
+        while ($tok !== false) {
+            $parts[] = $tok;
+            $tok = strtok(" \n\t");
+        }
+
+        $movieIds = [];
+        for ($i = 2; $i < count($parts); $i+=2) {
+            $movieIds[] = $parts[$i];
+        }
+
+        return Movie::whereIn('id', $movieIds)->get()->toArray();
     }
 }
