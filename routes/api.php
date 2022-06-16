@@ -28,13 +28,14 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::get('user/{user}', 'App\Http\Controllers\Auth\AuthController@user')->name('user.index');
 
         Route::get('movies', 'App\Http\Controllers\MovieController@index')->name('movies.index');
+        Route::get('popularMovies', 'App\Http\Controllers\MovieController@popularMovies')->name('movies.popularMovies');
         Route::get('movies/{movie}', 'App\Http\Controllers\MovieController@show')->name('movies.show');
         Route::post('movies/{movie}/{status}', 'App\Http\Controllers\MovieController@likeMovie')->name('movies.like');
         Route::get('comments', 'App\Http\Controllers\CommentController@index')->name('comments.index');
         Route::post('comments/{movie}', 'App\Http\Controllers\CommentController@store')->name('comments.store');
 
-
-        Route::post('recommendations', 'App\Http\Controllers\UserMovieController@recommended');
+        Route::get('recommendations', 'App\Http\Controllers\UserMovieController@recommended');
+        Route::post('commonMovie', 'App\Http\Controllers\MovieController@commonMovie');
 
         Route::post('rating', 'App\Http\Controllers\UserMovieController@store')->name('user_movie.store');
         Route::post('rating', 'App\Http\Controllers\UserMovieController@store')->name('user_movie.store');

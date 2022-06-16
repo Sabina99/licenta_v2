@@ -1,4 +1,9 @@
-import {GET_MOVIES_SUCCESS, GET_CHUNK_MOVIES_SUCCESS, RESET_MOVIES_CHUNK} from "../types/types";
+import {
+  GET_MOVIES_SUCCESS,
+  GET_CHUNK_MOVIES_SUCCESS,
+  RESET_MOVIES_CHUNK,
+  GET_POPULAR_MOVIES_SUCCESS
+} from "../types/types";
 
 const initialState = [];
 
@@ -7,6 +12,11 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case GET_MOVIES_SUCCESS:
+      return {
+        ...state,
+        movies: payload,
+      };
+    case GET_POPULAR_MOVIES_SUCCESS:
       return {
         ...state,
         movies: payload,

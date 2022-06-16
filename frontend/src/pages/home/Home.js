@@ -6,7 +6,8 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import VirtualScroll from "react-dynamic-virtual-scroll";
 import {useDispatch, useSelector} from "react-redux";
-import {getAllMovies, saveComment, likeMovie} from "../../actions/movies";
+import {saveComment, likeMovie} from "../../actions/movies";
+import {getPopularMovies} from "../../actions/popularMovies";
 import {API_BASE_URL} from "../../env";
 import {Input} from "antd";
 import AddCommentIcon from '@mui/icons-material/AddComment';
@@ -16,13 +17,13 @@ function Home() {
   const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [shouldClear, setShouldClear] = useState(false);
-  const {movies} = useSelector((state) => state.movies);
+  const {movies} = useSelector((state) => state.popularMovies);
   const [message, setMessage] = useState({});
   const [movie, setMovie] = useState();
   const dispatch = useDispatch();
 
   if (!movies) {
-    dispatch(getAllMovies());
+    dispatch(getPopularMovies());
   }
 
   const onChange = (a, movie) => {
@@ -33,7 +34,7 @@ function Home() {
   const submitMessage = (e, movieId) => {
     if (e.key === 'Enter' && message[movieId]) {
       dispatch(saveComment(movie, message[movieId]))
-        .then(() => dispatch(getAllMovies()))
+        .then(() => dispatch(getPopularMovies()))
         .then(() => setMessage({...message, [movieId]: ''}))
         .then(() => scrollToBottom())
     }
@@ -52,7 +53,7 @@ function Home() {
 
   const onLikeMovie = (movie, status) => {
     dispatch(likeMovie(movie.id, status))
-      .then(() => dispatch(getAllMovies()))
+      .then(() => dispatch(getPopularMovies()))
   }
 
   const renderItems = (index) => {

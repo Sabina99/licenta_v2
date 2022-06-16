@@ -35,7 +35,6 @@ function RecommendedMovies(props) {
   if (!recommendations.length) {
     dispatch(getRecommended([12])).then(res => console.log(res));
   }
-  console.log(recommendations)
 
 
   useEffect(() => {

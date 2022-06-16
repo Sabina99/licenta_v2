@@ -12,6 +12,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Collection;
 
 class MovieController extends Controller
 {
@@ -43,14 +44,61 @@ class MovieController extends Controller
         $take = $request->get('take');
         $batch = $request->get('batch');
         if ($take) {
-            $qb
-                ->skip($batch * $take)
-                ->take($take);
+            $qb->skip($batch * $take)->take($take);
         }
 
         return $qb->get()->toArray();
     }
 
+    public function popularMovies(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        $movies = collect(Movie::with('comments')
+            ->with('comments.user')
+            ->leftJoin('user_movies', function ($leftJoin) {
+                $leftJoin->on('movies.id', '=', 'user_movies.movie_id');
+            })
+            ->select('movies.*')
+            ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = true THEN 1 END) as likes"))
+            ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
+            ->addSelect(DB::raw("(SELECT us.is_liked FROM user_movies us WHERE us.user_id = {$userId} AND movies.id = us.movie_id) AS liked"))
+            ->groupBy('movies.id')
+            ->get());
+
+        foreach ($movies as $movie) {
+            $movie->popularity = $movie->likes + $movie->dislikes + count($movie->comments);
+        }
+
+        $movies = $movies->sortByDesc('popularity')->values();
+
+        return $movies->take(20);
+    }
+
+    public function commonMovie(Request $request)
+    {
+        $userId = Auth::user()->id;
+
+        if (!$request->ids) {
+            return Movie::inRandomOrder()->first();
+        }
+
+        $userIds = $request->ids;
+        $userIds[] = Auth::user()->id;
+
+        $userMovies = collect(UserMovie::whereIn('user_id', $userIds)->get()->toArray());
+        $movies = [];
+        foreach ($userMovies as $userMovie) {
+            if (!array_key_exists($userMovie['movie_id'], $movies)) {
+                $movies[$userMovie['movie_id']] = 1;
+            } else {
+                $movies[$userMovie['movie_id']]++;
+            }
+        }
+        $movies = collect($movies)->sortDesc();
+
+        return Movie::where('id', $movies->keys()->first())->first();
+    }
 
     /**
      * Display the specified resource.

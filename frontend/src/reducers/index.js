@@ -4,11 +4,13 @@ import movies from "./movies";
 import movie from "./movie";
 import friends from "./friends";
 import recommended from "./recommended";
+import popularMovies from "./popularMovies";
 
 export default combineReducers({
   auth,
   movies,
   movie,
   friends,
-  recommended
+  recommended,
+  popularMovies
 })
