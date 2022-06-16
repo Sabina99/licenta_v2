@@ -12,6 +12,7 @@ import {API_BASE_URL} from "../../env";
 import {Input} from "antd";
 import AddCommentIcon from '@mui/icons-material/AddComment';
 import MovieModal from "../../common/modals/MovieModal";
+import {getMovie} from "../../actions/movie";
 
 function Home() {
   const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
@@ -28,12 +29,18 @@ function Home() {
 
   const onChange = (a, movie) => {
     setMessage({...message, [movie.id]: a.target.value})
-    setMovie(movie.id)
+    // setIsModalVisible(true)
+  }
+
+  const setMovieHandler = (movie) => {
+    setMovie(movie)
+    dispatch(getMovie(movie.id));
+    setIsModalVisible(true)
   }
 
   const submitMessage = (e, movieId) => {
     if (e.key === 'Enter' && message[movieId]) {
-      dispatch(saveComment(movie, message[movieId]))
+      dispatch(saveComment(movieId, message[movieId]))
         .then(() => dispatch(getPopularMovies()))
         .then(() => setMessage({...message, [movieId]: ''}))
         .then(() => scrollToBottom())
@@ -137,9 +144,20 @@ function Home() {
     <div className="home-container">
       <Menu/>
       <div className="home-wrapper">
-        <AutoComplete shouldClear={shouldClear} setIsModalVisible={setIsModalVisible} setMovie={setMovie} movie={movie}/>
+        <AutoComplete
+          shouldClear={shouldClear}
+          setIsModalVisible={setIsModalVisible}
+          setMovie={setMovieHandler}
+          movie={movie}
+        />
         <div>
-          {movie ? <MovieModal setShouldClear={setShouldClear} isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} searchedMovie={movie} setMovie={setMovie}/> : null}
+          <MovieModal
+            isModalVisible={isModalVisible}
+            setShouldClear={closeModal}
+            setIsModalVisible={setIsModalVisible}
+            movie={movie}
+            setMovie={setMovie}
+          />
           {
             movies &&
             <VirtualScroll

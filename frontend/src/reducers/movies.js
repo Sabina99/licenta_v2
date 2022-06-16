@@ -5,7 +5,10 @@ import {
   GET_POPULAR_MOVIES_SUCCESS
 } from "../types/types";
 
-const initialState = [];
+const initialState = {
+  movies: null,
+  chunkMovies: null
+};
 
 export default function (state = initialState, action) {
   const { type, payload } = action;

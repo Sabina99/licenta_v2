@@ -2,13 +2,13 @@ import './Movies.scss';
 import Menu from "../../common/menu/Menu";
 import {Button} from "antd";
 import {useDispatch, useSelector} from "react-redux";
-import CustomSearch from "../../common/customSearch/CustomSearch";
 import React, {useState, useEffect} from "react";
 import {getMovies} from "../../actions/movies";
 import MovieModal from "../../common/modals/MovieModal";
 import {getMovie} from "../../actions/movie";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {API_BASE_URL} from "../../env";
+import AutoComplete from "../../common/customAutoComplete/CustomAutoComplete";
 
 function Movies() {
   const {chunkMovies} = useSelector((state) => state.movies);
@@ -17,6 +17,7 @@ function Movies() {
   const [batchNumber, setBatchNumber] = useState(1);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const movieDetails = useSelector((state) => state.movie);
+  const [shouldClear, setShouldClear] = useState(false);
 
   useEffect(() => {
     if (movieDetails && movieDetails.movie) {
@@ -54,14 +55,6 @@ function Movies() {
 
     return (
       <div key={movie.id} className="row-item" onClick={() => showModal(movie)}>
-        {/*<LazyLoadImage*/}
-        {/*  effect="blur"*/}
-        {/*  // src={API_BASE_URL.replace('/api', '') + movie.image_src}*/}
-        {/*  src={`http://localhost:3000/${movie.image_src.replace('storage/', '')}`}*/}
-        {/*  className="movie-image"*/}
-        {/*  width={170}*/}
-        {/*  height={257}*/}
-        {/*/>*/}
         <img src={API_BASE_URL.replace('/api', '') + movie.image_src} className="movie-image" loading="auto" alt="..."/>
 
         <div className="title-wrapper">
@@ -97,17 +90,31 @@ function Movies() {
     chunks.push(chunkMovies.slice(i, i + chunkSize));
   }
 
+  const setMovieHandler = (movie) => {
+    setMovie(movie)
+    dispatch(getMovie(movie.id));
+    setIsModalVisible(true)
+  }
+
   return (
     <div className="movies-container">
       <Menu/>
         <div className="movies-wrapper">
-          <MovieModal  isModalVisible={isModalVisible} setIsModalVisible={setIsModalVisible} movie={movie} setMovie={setMovie} setShouldClear={closeModal}/>
+          <MovieModal
+            isModalVisible={isModalVisible}
+            setIsModalVisible={setIsModalVisible}
+            movie={movie}
+            setMovie={setMovie}
+            setShouldClear={closeModal}
+          />
           {chunkMovies ?
             <div>
               <div className="header">
-                <CustomSearch
-                  onChange={(el) => console.log('s', el)}
-                  placeholder="Search movie"
+                <AutoComplete
+                  shouldClear={shouldClear}
+                  setIsModalVisible={setIsModalVisible}
+                  setMovie={setMovieHandler}
+                  movie={movie}
                 />
                 <div className="filter-buttons">
                   <Button className="button" onClick={onFilter}>Filter by</Button>

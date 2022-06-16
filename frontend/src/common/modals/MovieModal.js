@@ -16,7 +16,7 @@ import {API_BASE_URL} from "../../env";
 
 function MovieModal(props) {
 
-  const [movie, setMovie] = useState(null);
+  const [movie, setMovie] = useState();
   const [rating, setRating] = useState(null);
   const [showComments, setShowComments] = useState(false);
   const [message, setMessage] = useState({});
@@ -25,7 +25,6 @@ function MovieModal(props) {
 
   const closeModal = () => {
     props.setShouldClear(true);
-    props.setMovie(null);
     props.setIsModalVisible(false);
   }
 
@@ -36,16 +35,11 @@ function MovieModal(props) {
     }
   }, [movieDetails]);
 
-  if (!movie) {
-    // setMovie(props.searchedMovie);
-  }
-
   const dispatch = useDispatch();
   const onLikeMovie = (movie, status) => {
     dispatch(likeMovie(movie.id, status))
-      .then(() => {
-        dispatch(getMovie(movie.id));
-      })
+      .then(() => dispatch(getMovie(movie.id)))
+      .then(() => dispatch(getAllMovies()))
   }
 
   const onChangeRating = (rating) => {

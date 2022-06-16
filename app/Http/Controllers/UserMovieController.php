@@ -9,6 +9,7 @@ use App\Models\UserMovie;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
@@ -89,46 +90,73 @@ class UserMovieController extends Controller
 
     public function recommended(Request $request)
     {
-
         $user = Auth::user();
 
-        if ($request->ids && count($request->ids) > 0) {
-            $userIds = $request->ids;
-        } else {
-            $userIds = [];
-        }
-        $movie = UserMovie::where('user_id', $user->id)->get()->toArray();
-        $sorted = collect($movie)->sortByDesc('rating');
+        if ($request->type === 'my-preferences') {
+            $userMovie = UserMovie::query()
+                ->where('user_id', '=', $user->id)
+                ->where('is_liked', '=',1)
+                ->where('rating', '!=', 'NULL')
+                ->orderBy('rating', 'DESC')
+                ->first();
 
-        $stringOutput = 0;
-        $userIds[] = $user->id;
-        $index = 0;
-        while (!$stringOutput || $index > count($sorted)) {
-            $movie = Movie::where('id',  $sorted[$index]['movie_id'])->first();
-            $process = new Process(['python3', base_path() . '/recommended/main.py', $movie->title, implode(',', $userIds)]);
-            $process->run();
-
-            if (!$process->isSuccessful()) {
-                throw new ProcessFailedException($process);
+            if (!$userMovie) {
+                return Movie::inRandomOrder()->take(10)->get();
             }
 
-            $stringOutput = $process->getOutput();
-            $index++;
-        }
-        return $stringOutput;
+            $movie = $userMovie->movie;
 
-        $parts = [];
-        $tok = strtok($stringOutput, " \n\t");
-        while ($tok !== false) {
-            $parts[] = $tok;
-            $tok = strtok(" \n\t");
+            $gender = explode(',', $movie->genres)[0];
+            $director = explode(',', $movie->directors)[0];
+
+            $results = [];
+            $genderMovies = collect(Movie::query()
+                ->where('genres', 'LIKE', "%{$gender}%")
+                ->get()
+                ->toArray());
+
+            $directorMovies = collect(Movie::query()
+                ->where('directors', 'LIKE', "%{$director}%")
+                ->get()
+                ->toArray());
+
+            foreach ($genderMovies as $genderMovie) {
+                foreach ($directorMovies as $directorMovie) {
+                    if (isset($results[$genderMovie['id']])) {
+                        $results[$genderMovie['id']]++;
+                    } else {
+                        $results[$genderMovie['id']] = 1;
+                    }
+
+                    if (isset($results[$directorMovie['id']])) {
+                        $results[$directorMovie['id']]++;
+                    } else {
+                        $results[$directorMovie['id']] = 1;
+                    }
+                }
+            }
+
+            arsort($results);
+
+            $results = array_slice(array_keys($results), 0, 10);
+
+            return Movie::query()->whereIn('id', $results)->get();
         }
 
-        $movieIds = [];
-        for ($i = 2; $i < count($parts); $i+=2) {
-            $movieIds[] = $parts[$i];
+        if ($request->type === 'friends-ratings') {
+            $movies = DB::table('user_movies')
+                ->select(DB::raw('SUM(rating) AS sumRating'), 'movie_id')
+                ->whereIn('user_id', [...$request->get('users'), $user->id])
+                ->where('is_liked', '=', '1')
+                ->where('rating', '!=', 'NULL')
+                ->groupBy('movie_id')
+                ->orderBy('sumRating', 'DESC')
+                ->take(10)
+                ->get();
+
+            return Movie::query()->whereIn('id', $movies->pluck('movie_id'))->get();
         }
 
-        return Movie::whereIn('id', $movieIds)->get()->toArray();
+        return new JsonResponse();
     }
 }

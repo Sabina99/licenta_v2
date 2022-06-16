@@ -11,10 +11,15 @@ import React, {useState, useEffect} from "react";
 import {cloneDeep} from "lodash/lang";
 import {useNavigate} from "react-router-dom";
 import log from "tailwindcss/lib/util/log";
+import MovieModal from "../modals/MovieModal";
+import {getMovie} from "../../actions/movie";
+import {CLEAR_FILTER} from "../../types/types";
+import ClearIcon from '@mui/icons-material/Clear';
 
 function RecommendedMovies(props) {
 
   const [selected, setSelected] = useState(1);
+  const [fetchedRecommended, setFetchedRecommended] = useState(false);
   const [recommendedOne, setRecommendedOne] = useState([]);
   const [recommendedOTwo, setRecommendedTwo] = useState([]);
   const [recommendedOThree, setRecommendedThree] = useState([]);
@@ -28,30 +33,38 @@ function RecommendedMovies(props) {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [filteredFriends, setFilteredFriends] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [movie, setMovie] = useState(null);
 
   if (!friends) {
     dispatch(getFriends())
   }
-  if (!recommendations.length) {
-    dispatch(getRecommended([12])).then(res => console.log(res));
-  }
 
+  if (!recommendations.length && !fetchedRecommended) {
+    setFetchedRecommended(true)
+    dispatch(getRecommended({type: 'my-preferences'}))
+  }
 
   useEffect(() => {
     setFilteredFriends(friends);
   }, [friends])
 
+  const applyFilter = () => {
+    dispatch(getRecommended({type: 'friends-ratings', users: selectedFriends.map((el) => el.id)}))
+  }
+
   const handleMyRatings = () => {
     setSelected(1);
-    dispatch(getAllMovies())
+    dispatch(getRecommended({type: 'my-preferences'}))
   }
 
   const handleFriendsRatings = () => {
+    clearFilter()
     setSelected(2);
   }
 
-  const handleAllRatings = () => {
-    setSelected(3);
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER })
   }
 
   const getStyle = (index) => {
@@ -111,6 +124,16 @@ function RecommendedMovies(props) {
     setFilteredFriends(searchFriends)
   }
 
+
+  const showModal = (movie) => {
+    dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
+  }
+
+  const closeModal = () => {
+    setMovie(null);
+    setIsModalVisible(false);
+  }
+
   return (
     <div className="recommended-container">
       <div className="recommended-wrapper">
@@ -126,20 +149,41 @@ function RecommendedMovies(props) {
                 Based on:
               </div>
               <div className="button" onClick={handleMyRatings} style={getStyle(1)}>
-                My ratings
+                My recommendations
               </div>
               <div className="button" onClick={handleFriendsRatings} style={getStyle(2)}>
                 Friends' ratings
-              </div>
-              <div className="button" onClick={handleAllRatings} style={getStyle(3)}>
-                My & my friends' ratings
               </div>
             </div>
           )}
         </div>
       </div>
       {
-        friends && selected === 2 || selected === 3 ?
+        (selected === 1 || selected === 2) &&
+        <div className="my-preferences">
+          {recommendations.map((movie) => (
+            <div key={movie.id} className="row-item" onClick={() => showModal(movie)}>
+              <img src={API_BASE_URL.replace('/api', '') + movie.image_src} className="movie-image" loading="auto" alt="..."/>
+
+              <div className="title-wrapper">
+                <div className="title">
+                  {movie.title}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      }
+      <MovieModal
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        movie={movie}
+        setMovie={setMovie}
+        setShouldClear={closeModal}
+      />
+
+      {
+        friends && selected === 2 && !recommendations.length ?
           <div className="recommended-container-wrapper">
             <div className="choose-friends-container">
               <div className="choose-title">
@@ -166,8 +210,18 @@ function RecommendedMovies(props) {
                   renderItem={(rowIndex) => renderItems(rowIndex, true)}
                   style={{height: "100%", overflow: 'auto'}}
                 />
+                <div className="submit-wrapper">
+                  <div className="apply" onClick={applyFilter}>Apply</div>
+                </div>
               </div> : null}
           </div> : null
+      }
+
+      {
+        selected === 2 && recommendations.length &&
+        <div className={"close-wrapper"} onClick={clearFilter}>
+          <ClearIcon/>
+        </div>
       }
     </div>
   );
