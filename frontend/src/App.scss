@@ -74,3 +74,17 @@
   border-radius: 8px;
   outline: none;
 }
+
+.fake-loader {
+  width: calc(100% - 300px);
+  background: #232323;
+  height: calc(100% - 92px);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    margin-top: -60px;
+  }
+}

@@ -8,13 +8,13 @@ export const handleError = (error, dispatch) => {
     error.message ||
     error.toString();
 
-  if (error.response?.data?.status === 401) {
-    notification.error({
-      message: `Unauthorised`,
-      description:
-        '',
-      placement: 'top',
-    });
+  if (error.response?.status === 401) {
+    // notification.error({
+    //   message: `Unauthorised`,
+    //   description:
+    //     '',
+    //   placement: 'top',
+    // });
   } else {
     notification.error({
       message: `Error`,

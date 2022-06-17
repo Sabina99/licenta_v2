@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import CloseIcon from '@mui/icons-material/Close';
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
-import {getAllMovies, likeMovie, saveComment} from "../../actions/movies";
+import {likeMovie, saveComment} from "../../actions/movies";
 import {useDispatch, useSelector} from "react-redux";
 import {getMovie, changeRating, getRating} from "../../actions/movie";
 import {Rating} from "@mui/material";
@@ -39,7 +39,6 @@ function MovieModal(props) {
   const onLikeMovie = (movie, status) => {
     dispatch(likeMovie(movie.id, status))
       .then(() => dispatch(getMovie(movie.id)))
-      .then(() => dispatch(getAllMovies()))
   }
 
   const onChangeRating = (rating) => {
@@ -56,7 +55,7 @@ function MovieModal(props) {
   }
 
   const renderComment = (index) => {
-    const el = movie.comments[index];
+    const el = movie.comments[movie.comments.length - 1 - index];
 
     return (
       <div key={index} className="comment-item">
@@ -77,21 +76,9 @@ function MovieModal(props) {
   const submitMessage = (e, movieId) => {
     if (e.key === 'Enter' && message[movieId]) {
       dispatch(saveComment(movieId, message[movieId]))
-        .then(() => dispatch(getAllMovies()))
         .then(() => setMessage({...message, [movieId]: ''}))
-        .then(() => scrollToBottom())
+        .then(() => dispatch(getMovie(movieId)))
     }
-  }
-
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      const commentsElement = document.getElementsByClassName("commentsList");
-      if (commentsElement) {
-        for (let i = 0; i < commentsElement.length; i++) {
-          commentsElement[i].scrollTop = commentsElement[i].scrollHeight;
-        }
-      }
-    }, 1)
   }
 
   return (
@@ -102,12 +89,12 @@ function MovieModal(props) {
       <Box className="movie-modal">
         <CloseIcon className="close-modal" onClick={closeModal} />
         <div className="movie-modal-content">
-          <div style={{  height: "100%", width: "45%"}}>
+          <div style={{height: "100%", width: "50%"}}>
             <div className="movie-poster" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + movie.image_src})`}} />
           </div>
           <div className="movie-details">
             <div className="movie-details-title">
-              {movie.title + " (" + movie.year + ")"}
+              {movie.title + (movie.year ? " (" + movie.year + ")" : '')}
             </div>
             {!showComments ?
               <div className="movie-details-content">

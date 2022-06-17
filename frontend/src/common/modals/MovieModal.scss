@@ -80,6 +80,8 @@
         height: calc(100% - 60px);
         overflow: auto;
         margin-bottom: 2px;
+        display: flex;
+        flex-direction: column-reverse;
 
         .comment-item {
           display: flex;

@@ -10,10 +10,13 @@
       position: relative;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+
+      .autocomplete-wrapper {
+        margin-left: 30px;
+      }
 
       .filter-buttons {
-        position: absolute;
-        right: 0;
         margin-right: 30px;
 
         .button {
@@ -53,6 +56,16 @@
           height: 250px;
           padding: 20px;
           margin-bottom: 20px;
+          cursor: pointer;
+
+          &:hover {
+            .title-wrapper {
+              background: #edbd28;
+              .title {
+                color: black;
+              }
+            }
+          }
 
           .movie-image {
             width: 170px;

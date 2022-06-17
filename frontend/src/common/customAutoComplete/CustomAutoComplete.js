@@ -34,7 +34,7 @@ const CustomAutoComplete = (props) => {
     }
   }, [props.movie]);
 
-  return <div className="autocomplete-wrapper" style={{position: 'relative'}}>
+  return <div className="autocomplete-wrapper">
     <AutoComplete
       onSelect={onSelect}
       onSearch={onSearch}

@@ -1,5 +1,4 @@
 import './RecommendedMovies.scss';
-import {getAllMovies, getMovies} from "../../actions/movies";
 import {useDispatch, useSelector} from "react-redux";
 import {getFriends} from "../../actions/friends";
 import {getRecommended} from "../../actions/recommended";
@@ -10,7 +9,6 @@ import CustomSearch from "../customSearch/CustomSearch";
 import React, {useState, useEffect} from "react";
 import {cloneDeep} from "lodash/lang";
 import {useNavigate} from "react-router-dom";
-import log from "tailwindcss/lib/util/log";
 import MovieModal from "../modals/MovieModal";
 import {getMovie} from "../../actions/movie";
 import {CLEAR_FILTER} from "../../types/types";
@@ -20,14 +18,10 @@ function RecommendedMovies(props) {
 
   const [selected, setSelected] = useState(1);
   const [fetchedRecommended, setFetchedRecommended] = useState(false);
-  const [recommendedOne, setRecommendedOne] = useState([]);
-  const [recommendedOTwo, setRecommendedTwo] = useState([]);
-  const [recommendedOThree, setRecommendedThree] = useState([]);
 
   const { value, index } = props;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {movies} = useSelector((state) => state.movies);
   const {recommendations} = useSelector((state) => state.recommended);
   const {friends} = useSelector((state) => state.friends);
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };

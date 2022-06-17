@@ -15,7 +15,6 @@ import MovieModal from "../../common/modals/MovieModal";
 import {getMovie} from "../../actions/movie";
 
 function Home() {
-  const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [shouldClear, setShouldClear] = useState(false);
   const {movies} = useSelector((state) => state.popularMovies);
@@ -29,38 +28,24 @@ function Home() {
 
   const onChange = (a, movie) => {
     setMessage({...message, [movie.id]: a.target.value})
-    // setIsModalVisible(true)
   }
 
   const setMovieHandler = (movie) => {
     setMovie(movie)
-    dispatch(getMovie(movie.id));
-    setIsModalVisible(true)
+    dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
   }
 
   const submitMessage = (e, movieId) => {
     if (e.key === 'Enter' && message[movieId]) {
       dispatch(saveComment(movieId, message[movieId]))
-        .then(() => dispatch(getPopularMovies()))
         .then(() => setMessage({...message, [movieId]: ''}))
-        .then(() => scrollToBottom())
+        .then(() => dispatch(getPopularMovies(movies.map((el) => el.id))))
     }
-  }
-
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      const commentsElement = document.getElementsByClassName("commentsList");
-      if (commentsElement) {
-        for (let i = 0; i < commentsElement.length; i++) {
-          commentsElement[i].scrollTop = commentsElement[i].scrollHeight;
-        }
-      }
-    }, 1)
   }
 
   const onLikeMovie = (movie, status) => {
     dispatch(likeMovie(movie.id, status))
-      .then(() => dispatch(getPopularMovies()))
+      .then(() => dispatch(getPopularMovies(movies.map((el) => el.id))))
   }
 
   const renderItems = (index) => {
@@ -110,7 +95,7 @@ function Home() {
   }
 
   const renderComment = (index, indexMovie) => {
-    const el = movies[indexMovie]['comments'][index];
+    const el = movies[indexMovie]['comments'][movies[indexMovie]['comments'].length - 1 - index];
     let backgroundImage = API_BASE_URL.replace('/api', '') + el.user.image;
     if (!el.user.image) {
       backgroundImage = "../../../images/default-profile-picture.jpg"
@@ -125,11 +110,6 @@ function Home() {
         </div>
       </div>
     )
-  }
-
-  if (shouldScrollToBottom) {
-    scrollToBottom();
-    setShouldScrollToBottom(false)
   }
 
   if (shouldClear) {

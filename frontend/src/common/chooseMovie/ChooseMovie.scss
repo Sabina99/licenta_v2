@@ -1,0 +1,15 @@
+.choose-movie-item {
+  display: flex;
+  margin: 40px;
+
+  .choose-movie-title-wrapper {
+    display: flex;
+    margin-left: 35px;
+
+    .title {
+      color: #B1BBBB;
+      font-size: 35px;
+      font-family: Gothic, serif;
+    }
+  }
+}

@@ -9,6 +9,7 @@ import {getMovie} from "../../actions/movie";
 import InfiniteScroll from "react-infinite-scroll-component";
 import {API_BASE_URL} from "../../env";
 import AutoComplete from "../../common/customAutoComplete/CustomAutoComplete";
+import {PuffLoader} from "react-spinners";
 
 function Movies() {
   const {chunkMovies} = useSelector((state) => state.movies);
@@ -18,6 +19,8 @@ function Movies() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const movieDetails = useSelector((state) => state.movie);
   const [shouldClear, setShouldClear] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadMovies, setLoadMovies] = useState(false);
 
   useEffect(() => {
     if (movieDetails && movieDetails.movie) {
@@ -25,8 +28,11 @@ function Movies() {
     }
   }, [movieDetails]);
 
-  if (!chunkMovies.length) {
+  if (!chunkMovies.length && !loadMovies) {
+    setLoading(true);
+    setTimeout(fn => setLoading(false), 1000)
     dispatch(getMovies(40));
+    setLoadMovies(true)
   }
 
   const onFilter = () => {
@@ -42,8 +48,7 @@ function Movies() {
   }
 
   const showModal = (movie) => {
-    dispatch(getMovie(movie.id));
-    setIsModalVisible(true);
+    dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
   }
 
   const closeModal = () => {
@@ -92,9 +97,14 @@ function Movies() {
 
   const setMovieHandler = (movie) => {
     setMovie(movie)
-    dispatch(getMovie(movie.id));
-    setIsModalVisible(true)
+    dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
   }
+
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "#EDBD28",
+  };
 
   return (
     <div className="movies-container">
@@ -123,6 +133,10 @@ function Movies() {
                 </div>
               </div>
               <div className="body">
+                <div className="fake-loader" style={{display: loading ? 'flex' : 'none'}}>
+                  <PuffLoader color='#EDBD28' loading={loading} override={override} size={100} />
+                </div>
+
                 <div
                   id="scrollableList"
                   className="List"

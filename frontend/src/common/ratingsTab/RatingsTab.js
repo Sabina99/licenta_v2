@@ -17,9 +17,7 @@ const ProfileTabs = (props) => {
   }, [movieDetails]);
 
   const showModal = (movie) => {
-    dispatch(getMovie(movie.id));
-
-    setTimeout(() => setIsModalVisible(true), 100)
+    dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
   }
 
   const closeModal = () => {

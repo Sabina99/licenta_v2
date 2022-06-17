@@ -53,8 +53,9 @@ class MovieController extends Controller
     public function popularMovies(Request $request)
     {
         $userId = Auth::user()->id;
+        $moviesIds = $request->get('ids') ? explode(',', $request->get('ids')) : '';
 
-        $movies = collect(Movie::with('comments')
+        $qb = Movie::with('comments')
             ->with('comments.user')
             ->leftJoin('user_movies', function ($leftJoin) {
                 $leftJoin->on('movies.id', '=', 'user_movies.movie_id');
@@ -64,27 +65,30 @@ class MovieController extends Controller
             ->addSelect(DB::raw("count(CASE WHEN `user_movies`.`is_liked` = false THEN 1 END) as dislikes"))
             ->addSelect(DB::raw("(SELECT us.is_liked FROM user_movies us WHERE us.user_id = {$userId} AND movies.id = us.movie_id) AS liked"))
             ->groupBy('movies.id')
-            ->get());
+            ->take(20);
 
-        foreach ($movies as $movie) {
-            $movie->popularity = $movie->likes + $movie->dislikes + count($movie->comments);
+        if (!$moviesIds) {
+            $movies = collect($qb->get());
+            foreach ($movies as $movie) {
+                $movie->popularity = $movie->likes + $movie->dislikes + count($movie->comments);
+            }
+
+            return $movies->sortByDesc('popularity')->values();
         }
 
-        $movies = $movies->sortByDesc('popularity')->values();
+        $data = $qb->whereIn('movies.id', $moviesIds)->get();
 
-        return $movies->take(20);
+        return collect($moviesIds)->map(fn ($id) => $data->first(fn (Movie $movie) => $movie->id == $id));
     }
 
     public function commonMovie(Request $request)
     {
-        $userId = Auth::user()->id;
 
         if (!$request->ids) {
             return Movie::inRandomOrder()->first();
         }
 
-        $userIds = $request->ids;
-        $userIds[] = Auth::user()->id;
+        $userIds = [...$request->ids, Auth::user()->id];
 
         $userMovies = collect(UserMovie::whereIn('user_id', $userIds)->get()->toArray());
         $movies = [];

@@ -26,8 +26,9 @@ function MustWatch() {
               <Tab label="Choose movie to watch with your friends" />
             </Tabs>
           </Box>
-          <RecommendedMovies value={value} index={0} />
-          <ChooseMovie value={value} index={1} />
+          {!value ? <RecommendedMovies value={value} index={0} /> :
+            <ChooseMovie value={value} index={1} />
+          }
         </Box>
       </div>
     </div>
