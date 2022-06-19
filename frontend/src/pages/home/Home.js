@@ -53,7 +53,7 @@ function Home() {
 
     return (
       <div key={index} className="row-item">
-        <div className="movie-image" style={{backgroundImage: `url(${el.image})`}}></div>
+        <div className="movie-image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + el.image_src})`}} />
         <div className="movie-comments">
           <div className="title-wrapper">
             <div className="title">

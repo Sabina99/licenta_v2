@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getMovie} from "../../actions/movie";
 import "./RatingsTab.scss";
+import {API_BASE_URL} from "../../env";
 
 const ProfileTabs = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -36,7 +37,7 @@ const ProfileTabs = (props) => {
       />
       {props.movies.map((el, index) => (
         <div key={el.id + index} className="item">
-          <div className="image" style={{backgroundImage: `url(${el.movie.image})`}} onClick={() => showModal(el.movie)}></div>
+          <div className="image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + el.movie.image_src})`}} />
           <div className="details-wrapper">
             <div className="details">
               <div className="name">{el.movie.title}</div>

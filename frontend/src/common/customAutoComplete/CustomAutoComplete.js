@@ -4,6 +4,7 @@ import {AutoComplete} from "antd";
 import React, {useEffect, useState} from "react";
 import {getAllMovies} from "../../actions/movies";
 import {useDispatch} from "react-redux";
+import {API_BASE_URL} from "../../env";
 const { Option } = AutoComplete;
 
 const CustomAutoComplete = (props) => {
@@ -44,7 +45,7 @@ const CustomAutoComplete = (props) => {
     >
       {options.map((el) => (
         <Option key={el.id} value={el.title}>
-          <div className="image" style={{backgroundImage: `url(${el.image})`}}></div>
+          <div className="image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + el.image_src})`}}></div>
           <div className="option-wrapper">
             <span style={{fontWeight: 600, fontSize: 18}}>{el.title}</span>
             <span>{el.genres}</span>

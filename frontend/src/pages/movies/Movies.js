@@ -30,7 +30,7 @@ function Movies() {
 
   if (!chunkMovies.length && !loadMovies) {
     setLoading(true);
-    setTimeout(fn => setLoading(false), 1000)
+    setTimeout(fn => setLoading(false), 500)
     dispatch(getMovies(40));
     setLoadMovies(true)
   }
@@ -100,12 +100,6 @@ function Movies() {
     dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
   }
 
-  const override = {
-    display: "block",
-    margin: "0 auto",
-    borderColor: "#EDBD28",
-  };
-
   return (
     <div className="movies-container">
       <Menu/>
@@ -134,7 +128,7 @@ function Movies() {
               </div>
               <div className="body">
                 <div className="fake-loader" style={{display: loading ? 'flex' : 'none'}}>
-                  <PuffLoader color='#EDBD28' loading={loading} override={override} size={100} />
+                  <PuffLoader color='#EDBD28' loading={loading} size={100} />
                 </div>
 
                 <div

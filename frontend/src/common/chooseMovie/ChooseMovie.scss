@@ -5,11 +5,90 @@
   .choose-movie-title-wrapper {
     display: flex;
     margin-left: 35px;
+  }
+
+  .movie-image {
+    height: 86vh;
+    width: 33vw;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  .content {
+    margin-left: 15px;
+    margin-right: 15px;
 
     .title {
-      color: #B1BBBB;
       font-size: 35px;
       font-family: Gothic, serif;
+      color: white;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .movie-plot,
+    .movie-starts,
+    .director,
+    .rating {
+      color: #ffffff9c;
+      font-size: 19px;
+      margin: 20px 0;
+      border-bottom: 1px solid #ffffff33;
+      padding-bottom: 0.75rem;
+    }
+
+    .movie-starts {
+      border: none;
+    }
+
+    .rating {
+      color: #edbd28;
+      font-weight: 500;
+
+      span {
+        color: rgba(255, 255, 255, 0.6117647059)
+      }
+    }
+
+    span {
+      font-weight: 500;
+      margin-right: 5px;
+      padding: 0.75rem 0.75rem 0 0;
+    }
+
+    .movie-starts {
+      .actors {
+        display: flex;
+        margin-top: 10px;
+
+        .actor {
+          display: flex;
+          align-content: center;
+          justify-content: center;
+          flex-direction: column;
+          margin-right: 20px;
+          text-align: center;
+
+          .image {
+            width: 133px;
+            height: 200px;
+            background-size: cover;
+            border-radius: 5px;
+            background-position: center;
+          }
+        }
+      }
+    }
+
+    .genders {
+      span {
+        font-size: 20px;
+        margin-right: 20px;
+        padding: 10px 20px;
+        text-transform: capitalize;
+        border-radius: 20px;
+      }
     }
   }
 }

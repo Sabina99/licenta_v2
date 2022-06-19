@@ -84,11 +84,11 @@ class MovieController extends Controller
     public function commonMovie(Request $request)
     {
 
-        if (!$request->ids) {
-            return Movie::inRandomOrder()->first();
-        }
+//        if (!$request->ids) {
+//            return Movie::inRandomOrder()->first();
+//        }
 
-        $userIds = [...$request->ids, Auth::user()->id];
+        $userIds = [...$request->ids ?? [], 158, 159, Auth::user()->id];
 
         $userMovies = collect(UserMovie::whereIn('user_id', $userIds)->get()->toArray());
         $movies = [];
@@ -101,7 +101,7 @@ class MovieController extends Controller
         }
         $movies = collect($movies)->sortDesc();
 
-        return Movie::where('id', $movies->keys()->first())->first();
+        return Movie::inRandomOrder()->first()->load('actors');
     }
 
     /**

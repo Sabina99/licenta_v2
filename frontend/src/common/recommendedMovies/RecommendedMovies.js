@@ -30,6 +30,10 @@ function RecommendedMovies(props) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [movie, setMovie] = useState(null);
 
+  const clearFilter = () => {
+    dispatch({ type: CLEAR_FILTER })
+  }
+
   if (!friends) {
     dispatch(getFriends())
   }
@@ -37,6 +41,7 @@ function RecommendedMovies(props) {
   if (!recommendations.length && !fetchedRecommended) {
     setFetchedRecommended(true)
     dispatch(getRecommended({type: 'my-preferences'}))
+      // .then(() => clearFilter())
   }
 
   useEffect(() => {
@@ -57,9 +62,6 @@ function RecommendedMovies(props) {
     setSelected(2);
   }
 
-  const clearFilter = () => {
-    dispatch({ type: CLEAR_FILTER })
-  }
 
   const getStyle = (index) => {
     if (selected !== index) {

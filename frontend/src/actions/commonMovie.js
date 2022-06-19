@@ -2,9 +2,9 @@ import instance from "../plugins/axios";
 import {GET_COMMON_MOVIE_SUCCESS} from "../types/types";
 import {handleError} from "./common";
 
-export const getCommonMovie = (data) => (dispatch) => {
+export const getCommonMovie = () => (dispatch) => {
 
-  return instance.post('/commonMovie', data).then(
+  return instance.post('/commonMovie').then(
     (response) => {
       dispatch({ type: GET_COMMON_MOVIE_SUCCESS , payload: response?.data});
 

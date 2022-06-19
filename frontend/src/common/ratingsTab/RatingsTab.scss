@@ -1,7 +1,7 @@
 .ratings-tab {
   display: flex;
   flex-wrap: wrap;
-  max-height: calc(100vh - 385px);
+  max-height: calc(100vh - 409px);
   overflow: auto;
   justify-content: center;
   margin-right: -54px;
@@ -50,70 +50,71 @@
       font-family: Gothic, serif;
     }
 
-    .genders {
-      margin-top: 15px;
+  }
+}
 
-      span {
-        color: white;
-        padding: 6px 12px;
-        border-radius: 12px;
-        text-transform: lowercase;
-        font-size: 11px;
-        margin-right: 10px;
-        font-family: 'Gothic', serif;
+.genders {
+  margin-top: 15px;
 
-        &.drama {
-          background: #0022FE;
-        }
+  span {
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    text-transform: lowercase;
+    font-size: 11px;
+    margin-right: 10px;
+    font-family: 'Gothic', serif;
 
-        &.romance {
-          background: #D11E5B;
-        }
+    &.drama {
+      background: #0022FE;
+    }
 
-        &.sport {
-          background: green;
-        }
+    &.romance {
+      background: #D11E5B;
+    }
 
-        &.adventure {
-          background: #c58f2c;
-        }
+    &.sport {
+      background: green;
+    }
 
-        &.western {
-          background: #7c2b2b;
-        }
+    &.adventure {
+      background: #c58f2c;
+    }
 
-        &.comedy {
-          background: #ffff0099;
-        }
+    &.western {
+      background: #7c2b2b;
+    }
 
-        &.musical {
-          background: #c10202;
-        }
+    &.comedy {
+      background: #ffff0099;
+    }
 
-        &.sci-fi {
-          background: blueviolet;
-        }
+    &.musical {
+      background: #c10202;
+    }
 
-        &.thriller {
-          background: gray;
-        }
+    &.sci-fi {
+      background: blueviolet;
+    }
 
-        &.war {
-          background: black;
-        }
+    &.thriller {
+      background: gray;
+    }
 
-        &.crime {
-          background: darkslategray;
-        }
+    &.war {
+      background: black;
+    }
 
-        &.crime {
-          background: cornflowerblue;
-        }
+    &.crime {
+      background: darkslategray;
+    }
 
-        &.mystery {
-          background: darkslateblue;
-        }
-      }
+    &.crime {
+      background: cornflowerblue;
+    }
+
+    &.mystery {
+      background: darkslateblue;
     }
   }
 }

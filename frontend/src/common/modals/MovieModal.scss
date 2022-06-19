@@ -38,7 +38,7 @@
       color: white;
       margin-top: 6vh;
       margin-right: 15px;
-      width: 60%;
+      width: 50%;
 
       .comments {
         height: calc(100% - 100px);
@@ -102,6 +102,10 @@
             font-family: 'Gothic', serif;
             color: white;
             margin-bottom: 5px;
+          }
+
+          .user-name {
+            color: #ffffffa8;
           }
 
           .comment-wrapper {

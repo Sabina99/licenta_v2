@@ -89,7 +89,7 @@ function MovieModal(props) {
       <Box className="movie-modal">
         <CloseIcon className="close-modal" onClick={closeModal} />
         <div className="movie-modal-content">
-          <div style={{height: "100%", width: "50%"}}>
+          <div style={{  height: "100%", width: "50%"}}>
             <div className="movie-poster" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + movie.image_src})`}} />
           </div>
           <div className="movie-details">
