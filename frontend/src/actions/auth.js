@@ -39,6 +39,19 @@ export const login = (formData) => (dispatch) => {
     }, (error) =>  handleError(error, dispatch))
 };
 
+export const forgotPassword = (formData) => (dispatch) => {
+  return instance
+    .post('/forgot-password', formData)
+    .then(
+      (response) => {
+        dispatch({ type: SET_MESSAGE, payload: response.data.message });
+
+        return response?.data;
+      },
+      (error) => handleError(error, dispatch)
+    );
+};
+
 export const edit = (formData) => (dispatch) => instance
   .post('/user/edit', formData, {headers: { 'content-type': 'multipart/form-data' }})
   .then((response) => response?.data, (error) =>  handleError(error, dispatch));

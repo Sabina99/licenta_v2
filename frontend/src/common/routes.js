@@ -6,6 +6,7 @@ import Profile from "../pages/profile/Profile";
 import Friends from "../pages/friends/Friends";
 import FriendProfile from "../pages/friendProfile/FriendProfile";
 import MustWatch from "../pages/must-watch/MustWatch";
+import ForgotPassword from "../pages/forgotPassword/ForgotPassword";
 
 export const routes = [
   {
@@ -18,6 +19,12 @@ export const routes = [
     path: "/register",
     name: "register",
     element: Register,
+    private: false,
+  },
+  {
+    path: "/forgot-password",
+    name: "forgot-password",
+    element: ForgotPassword,
     private: false,
   },
   {

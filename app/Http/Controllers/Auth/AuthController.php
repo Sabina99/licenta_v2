@@ -171,8 +171,11 @@ class AuthController extends Controller
      */
     public function users(Request $request)
     {
+        /** @var User $user */
+        $user = Auth::user();
         $name = $request->get('name');
-        $qb = User::query();
+        $qb = User::query()
+            ->where('id', '!=', $user->id);
 
         if ($name) {
             $qb->where('name', 'LIKE', "%$name%");

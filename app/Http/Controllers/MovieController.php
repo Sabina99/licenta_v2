@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
+use App\Models\User;
 use App\Models\UserMovie;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -87,10 +88,13 @@ class MovieController extends Controller
 //        if (!$request->ids) {
 //            return Movie::inRandomOrder()->first();
 //        }
+        $followersIds = Auth::user()->load('following')
+            ->following
+            ->map(fn (User $user) => $user->id)
+            ->add(Auth::user()->id)
+            ->toArray();
 
-        $userIds = [...$request->ids ?? [], 158, 159, Auth::user()->id];
-
-        $userMovies = collect(UserMovie::whereIn('user_id', $userIds)->get()->toArray());
+        $userMovies = collect(UserMovie::whereIn('user_id', $followersIds)->get()->toArray());
         $movies = [];
         foreach ($userMovies as $userMovie) {
             if (!array_key_exists($userMovie['movie_id'], $movies)) {
@@ -101,7 +105,7 @@ class MovieController extends Controller
         }
         $movies = collect($movies)->sortDesc();
 
-        return Movie::inRandomOrder()->first()->load('actors');
+        return Movie::where('id', $movies->keys()->first())->first()->load('actors');
     }
 
     /**

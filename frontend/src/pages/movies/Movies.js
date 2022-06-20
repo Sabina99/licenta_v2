@@ -120,11 +120,6 @@ function Movies() {
                   setMovie={setMovieHandler}
                   movie={movie}
                 />
-                <div className="filter-buttons">
-                  <Button className="button" onClick={onFilter}>Filter by</Button>
-                  <Button className="button" onClick={onSort}>Sort by</Button>
-                  <Button className="button" onClick={onReset}>Reset filters</Button>
-                </div>
               </div>
               <div className="body">
                 <div className="fake-loader" style={{display: loading ? 'flex' : 'none'}}>

@@ -23,6 +23,7 @@ function RecommendedMovies(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {recommendations} = useSelector((state) => state.recommended);
+  const {friendsRecommendations} = useSelector((state) => state.recommended);
   const {friends} = useSelector((state) => state.friends);
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const [filteredFriends, setFilteredFriends] = useState([]);
@@ -41,7 +42,6 @@ function RecommendedMovies(props) {
   if (!recommendations.length && !fetchedRecommended) {
     setFetchedRecommended(true)
     dispatch(getRecommended({type: 'my-preferences'}))
-      // .then(() => clearFilter())
   }
 
   useEffect(() => {
@@ -120,7 +120,6 @@ function RecommendedMovies(props) {
     setFilteredFriends(searchFriends)
   }
 
-
   const showModal = (movie) => {
     dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
   }
@@ -129,6 +128,8 @@ function RecommendedMovies(props) {
     setMovie(null);
     setIsModalVisible(false);
   }
+
+  let data = selected === 2 ? friendsRecommendations : recommendations;
 
   return (
     <div className="recommended-container">
@@ -157,7 +158,7 @@ function RecommendedMovies(props) {
       {
         (selected === 1 || selected === 2) &&
         <div className="my-preferences">
-          {recommendations.map((movie) => (
+          {data.map((movie) => (
             <div key={movie.id} className="row-item" onClick={() => showModal(movie)}>
               <img src={API_BASE_URL.replace('/api', '') + movie.image_src} className="movie-image" loading="auto" alt="..."/>
 
@@ -179,7 +180,7 @@ function RecommendedMovies(props) {
       />
 
       {
-        friends && selected === 2 && !recommendations.length ?
+        friends && selected === 2 && !friendsRecommendations.length ?
           <div className="recommended-container-wrapper">
             <div className="choose-friends-container">
               <div className="choose-title">
@@ -214,7 +215,7 @@ function RecommendedMovies(props) {
       }
 
       {
-        selected === 2 && recommendations.length &&
+        selected === 2 && friendsRecommendations.length &&
         <div className={"close-wrapper"} onClick={clearFilter}>
           <ClearIcon/>
         </div>

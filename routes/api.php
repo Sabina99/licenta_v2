@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['json.response']], function () {
     Route::post('login', 'App\Http\Controllers\Auth\AuthController@login')->name('login.api');
     Route::post('register','App\Http\Controllers\Auth\AuthController@register')->name('register.api');
+    Route::post('forgot-password','App\Http\Controllers\Auth\AuthController@forgotPassword')->name('password.reset');
     Route::get('profile','App\Http\Controllers\Auth\AuthController@profile')->name('profile.api');
 
 

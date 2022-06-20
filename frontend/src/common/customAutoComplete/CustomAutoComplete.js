@@ -25,7 +25,6 @@ const CustomAutoComplete = (props) => {
     dispatch(getAllMovies())
       .then((movies) => {
         props.setMovie(movies.find(movie => movie.title === data));
-        props.setIsModalVisible(true);
       });
   };
 

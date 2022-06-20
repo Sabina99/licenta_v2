@@ -44,7 +44,7 @@ const Menu = () => {
 
   return (
     <div className="menu-wrapper">
-      <div className="profile">
+      <div className="profile" onClick={() => navigate('/friend-profile/' + user?.id)}>
         <div className="profile-image" style={{backgroundImage: `url(${backgroundImage})`}}></div>
         <div className="name">{user?.name}</div>
         <div className="username">{user?.username}</div>

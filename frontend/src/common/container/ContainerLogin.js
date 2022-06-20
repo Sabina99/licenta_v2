@@ -78,7 +78,7 @@ const ContainerLogin = (props) => {
         </Button>
       </Form>
       <div className="container-footer">
-        <a href="/register" className="forgot-password">Forgot password?</a>
+        <a href="/forgot-password" className="forgot-password">Forgot password?</a>
         <a href="/register" className="register">Register</a>
       </div>
     </div>

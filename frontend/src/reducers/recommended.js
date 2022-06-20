@@ -1,7 +1,8 @@
-import {CLEAR_FILTER, GET_RECOMMENDED_SUCCESS} from "../types/types";
+import {CLEAR_FILTER, GET_FRIENDS_RATINGS_SUCCESS, GET_RECOMMENDED_SUCCESS} from "../types/types";
 
 const initialState = {
-  recommendations: []
+  recommendations: [],
+  friendsRecommendations: []
 };
 
 export default function (state = initialState, action) {
@@ -13,10 +14,15 @@ export default function (state = initialState, action) {
         ...state,
         recommendations: payload,
       };
+    case GET_FRIENDS_RATINGS_SUCCESS:
+      return {
+        ...state,
+        friendsRecommendations: payload,
+      };
     case CLEAR_FILTER:
       return {
         ...state,
-        recommendations: [],
+        friendsRecommendations: [],
       };
     default:
       return state;

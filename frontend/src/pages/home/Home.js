@@ -32,7 +32,8 @@ function Home() {
 
   const setMovieHandler = (movie) => {
     setMovie(movie)
-    dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
+    dispatch(getMovie(movie.id))
+      .then(() => setIsModalVisible(true))
   }
 
   const submitMessage = (e, movieId) => {
