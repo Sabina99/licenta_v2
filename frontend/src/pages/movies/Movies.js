@@ -76,25 +76,6 @@ function Movies() {
       .then(() => setBatchNumber(batchNumber + 1));
   };
 
-  let chunkSize = 5;
-  if (window.outerWidth < 950) {
-    chunkSize = 2
-  }
-  if (window.outerWidth < 1000) {
-    chunkSize = 3
-  }
-  if (window.outerWidth < 1200) {
-    chunkSize = 4
-  }
-  if (window.outerWidth < 1400) {
-    chunkSize = 5
-  }
-
-  let chunks = [];
-  for (let i = 0; i < chunkMovies?.length; i += chunkSize) {
-    chunks.push(chunkMovies.slice(i, i + chunkSize));
-  }
-
   const setMovieHandler = (movie) => {
     setMovie(movie)
     dispatch(getMovie(movie.id)).then(() => setIsModalVisible(true))
@@ -131,16 +112,12 @@ function Movies() {
                   className="List"
                 >
                   <InfiniteScroll
-                    dataLength={chunks.length}
+                    dataLength={chunkMovies.length}
                     next={fetchMoreData}
                     hasMore={true}
                     scrollableTarget="scrollableList"
                   >
-                    {chunks.map((chunk) => (
-                      <div style={{display: 'flex'}}>
-                        { chunk.map((movie) => (renderItems(movie))) }
-                      </div>
-                    ))}
+                      { chunkMovies.map((movie) => (renderItems(movie))) }
                   </InfiniteScroll>
                 </div>
               </div>

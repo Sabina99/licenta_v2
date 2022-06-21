@@ -84,10 +84,6 @@ class MovieController extends Controller
 
     public function commonMovie(Request $request)
     {
-
-//        if (!$request->ids) {
-//            return Movie::inRandomOrder()->first();
-//        }
         $followersIds = Auth::user()->load('following')
             ->following
             ->map(fn (User $user) => $user->id)

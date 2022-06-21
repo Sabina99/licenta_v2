@@ -92,6 +92,9 @@
 
         .infinite-scroll-component {
           overflow: hidden !important;
+          display: flex;
+          flex-flow: wrap;
+          justify-content: center;
         }
       }
     }
