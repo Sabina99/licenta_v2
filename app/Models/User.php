@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Auth\Events\PasswordReset;
+use App\Notifications\PasswordReset;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -65,6 +65,17 @@ class User extends Authenticate implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordReset($token));
     }
 
     public function followers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

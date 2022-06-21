@@ -52,6 +52,19 @@ export const forgotPassword = (formData) => (dispatch) => {
     );
 };
 
+export const resetPassword = (formData) => (dispatch) => {
+  return instance
+    .post('/reset-password', formData)
+    .then(
+      (response) => {
+        dispatch({ type: SET_MESSAGE, payload: response.data.message });
+
+        return response?.data;
+      },
+      (error) => handleError(error, dispatch)
+    );
+};
+
 export const edit = (formData) => (dispatch) => instance
   .post('/user/edit', formData, {headers: { 'content-type': 'multipart/form-data' }})
   .then((response) => response?.data, (error) =>  handleError(error, dispatch));

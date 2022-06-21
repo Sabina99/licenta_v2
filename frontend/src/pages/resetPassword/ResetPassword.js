@@ -1,23 +1,26 @@
-import './ForgotPassword.scss';
+import './ResetPassword.scss';
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {forgotPassword} from "../../actions/auth";
+import {resetPassword} from "../../actions/auth";
 import {Button, Form, notification} from "antd";
 import CustomInput from "../../common/customInput/CustomInput";
 
-function ForgotPassword() {
+function ResetPassword() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const params = new URLSearchParams(window.location.search)
+
   const onSubmit = (formData) => {
-    dispatch(forgotPassword(formData)).then((data) => {
-      if (data?.status === 'Invalid token!') {
+
+    dispatch(resetPassword({...formData, token: params.get('token')})).then((data) => {
+      if (data?.message === 'Invalid token!') {
         notification.error({
-          description: data?.status,
+          description: data?.message,
           placement: 'top',
         });
       } else {
         notification.success({
-          description: data?.status,
+          description: data?.message,
           placement: 'top',
         });
 
@@ -30,7 +33,7 @@ function ForgotPassword() {
     <div className="forgot-password login-container">
       <div className="container-wrapper">
         <div className="container-header">
-          <div className="title title-register">Forgot password</div>
+          <div className="title title-register">Reset password</div>
         </div>
         <Form
           name="login_form"
@@ -57,6 +60,49 @@ function ForgotPassword() {
             />
 
           </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                message: "Password is not valid!",
+              },
+              {
+                required: true,
+                message: "This field is required!",
+              }
+            ]}
+          >
+            <CustomInput
+              type="password"
+              label="New password"
+              placeholder="New password"
+              name="password"
+              passField={true}
+            />
+
+          </Form.Item>
+          <Form.Item
+            name="password_confirmation"
+            rules={[
+              {
+                pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                message: "Password is not valid!",
+              },
+              {
+                required: true,
+                message: "This field is required!",
+              }
+            ]}
+          >
+            <CustomInput
+              type="password"
+              label="Confirm password"
+              placeholder="Confirm password"
+              name="password_confirmation"
+            />
+
+          </Form.Item>
 
           <Button
             className="submit-button-register"
@@ -76,4 +122,4 @@ function ForgotPassword() {
   );
 }
 
-export default ForgotPassword;
+export default ResetPassword;
