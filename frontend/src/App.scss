@@ -51,6 +51,7 @@
   font-weight: normal;
 }
 
+.movie-plot::-webkit-scrollbar,
 .ratings-tab::-webkit-scrollbar,
 .following-tab::-webkit-scrollbar,
 .commentsList::-webkit-scrollbar,
@@ -58,6 +59,7 @@
   width: 7px;
 }
 
+.movie-plot::-webkit-scrollbar-track,
 .ratings-tab::-webkit-scrollbar-track,
 .following-tab::-webkit-scrollbar-track,
 .commentsList::-webkit-scrollbar-track,
@@ -66,6 +68,7 @@
   border-radius: 6px;
 }
 
+.movie-plot::-webkit-scrollbar-thumb,
 .ratings-tab::-webkit-scrollbar-thumb,
 .following-tab::-webkit-scrollbar-thumb,
 .commentsList::-webkit-scrollbar-thumb,
