@@ -11,10 +11,19 @@ function ChooseMovie(props) {
   const dispatch = useDispatch();
   const [fetchMovie, shouldFetchMovie] = useState(true);
   const {movie} = useSelector((state) => state.commonMovie);
+  const {user: loggedInUser} = useSelector((state) => state.auth);
 
   if (fetchMovie) {
     dispatch(getCommonMovie())
     shouldFetchMovie(false)
+  }
+
+  let backgroundImageUrl = null;
+  if (movie) {
+    backgroundImageUrl = movie.image;
+    if (loggedInUser && loggedInUser.loadImageFromServer) {
+      backgroundImageUrl = API_BASE_URL.replace('/api', '') + movie.image_src;
+    }
   }
 
   return (
@@ -29,7 +38,7 @@ function ChooseMovie(props) {
           {value === index && movie && (
             <div className="choose-movie-item">
               <div className="image" >
-                <div className="movie-image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + movie.image_src})`}} />
+                <div className="movie-image" style={{backgroundImage: `url(${backgroundImageUrl})`}} />
               </div>
               <div className="content">
                 <div className="title">
@@ -41,7 +50,7 @@ function ChooseMovie(props) {
                 </div>
                 <div className="movie-details-content">
                   <div className="movie-plot">
-                    {movie.plot ?? null}
+                    {movie.plot.substring(0, 300) ?? null}
                   </div>
 
                   <div className="rating">

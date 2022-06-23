@@ -9,6 +9,7 @@ const ProfileTabs = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [movie, setMovie] = useState(null);
   const movieDetails = useSelector((state) => state.movie);
+  const {user: loggedInUser} = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -35,9 +36,14 @@ const ProfileTabs = (props) => {
         setMovie={setMovie}
         setShouldClear={closeModal}
       />
-      {props.movies.map((el, index) => (
-        <div key={el.id + index} className="item">
-          <div className="image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + el.movie.image_src})`}} />
+      {props.movies.map((el, index) => {
+        let backgroundImageUrl = el.movie.image;
+        if (loggedInUser && loggedInUser.loadImageFromServer) {
+          backgroundImageUrl = API_BASE_URL.replace('/api', '') + el.movie.image_src;
+        }
+
+        return <div key={el.id + index} className="item">
+          <div className="image" style={{backgroundImage: `url(${backgroundImageUrl})`}} />
           <div className="details-wrapper">
             <div className="details">
               <div className="name">{el.movie.title}</div>
@@ -48,7 +54,7 @@ const ProfileTabs = (props) => {
             </div>
           </div>
         </div>
-      ))}
+      })}
     </div>
   )
 }

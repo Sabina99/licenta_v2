@@ -20,6 +20,7 @@ function MovieModal(props) {
   const [rating, setRating] = useState(null);
   const [showComments, setShowComments] = useState(false);
   const [message, setMessage] = useState({});
+  const {user: loggedInUser} = useSelector((state) => state.auth);
 
   const movieDetails = useSelector((state) => state.movie);
 
@@ -81,6 +82,14 @@ function MovieModal(props) {
     }
   }
 
+  let backgroundImageUrl = null;
+  if (movie) {
+    backgroundImageUrl = movie.image;
+    if (loggedInUser && loggedInUser.loadImageFromServer) {
+      backgroundImageUrl = API_BASE_URL.replace('/api', '') + movie.image_src;
+    }
+  }
+
   return (
     movie ? <Modal
       open={props.isModalVisible}
@@ -90,7 +99,7 @@ function MovieModal(props) {
         <CloseIcon className="close-modal" onClick={closeModal} />
         <div className="movie-modal-content">
           <div style={{  height: "100%", width: "50%"}}>
-            <div className="movie-poster" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + movie.image_src})`}} />
+            <div className="movie-poster" style={{backgroundImage: `url(${backgroundImageUrl})`}} />
           </div>
           <div className="movie-details">
             <div className="movie-details-title">

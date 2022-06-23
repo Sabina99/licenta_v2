@@ -30,6 +30,7 @@ function RecommendedMovies(props) {
   const [selectedFriends, setSelectedFriends] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [movie, setMovie] = useState(null);
+  const {user: loggedInUser} = useSelector((state) => state.auth);
 
   const clearFilter = () => {
     dispatch({ type: CLEAR_FILTER })
@@ -158,9 +159,14 @@ function RecommendedMovies(props) {
       {
         (selected === 1 || selected === 2) &&
         <div className="my-preferences">
-          {data.map((movie) => (
-            <div key={movie.id} className="row-item" onClick={() => showModal(movie)}>
-              <img src={API_BASE_URL.replace('/api', '') + movie.image_src} className="movie-image" loading="auto" alt="..."/>
+          {data.map((movie) => {
+            let backgroundImageUrl = movie.image;
+            if (loggedInUser && loggedInUser.loadImageFromServer) {
+              backgroundImageUrl = API_BASE_URL.replace('/api', '') + movie.image_src;
+            }
+
+            return <div key={movie.id} className="row-item" onClick={() => showModal(movie)}>
+              <img src={backgroundImageUrl} className="movie-image" loading="auto" alt="..."/>
 
               <div className="title-wrapper">
                 <div className="title">
@@ -168,7 +174,7 @@ function RecommendedMovies(props) {
                 </div>
               </div>
             </div>
-          ))}
+          })}
         </div>
       }
       <MovieModal

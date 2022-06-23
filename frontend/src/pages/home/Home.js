@@ -18,6 +18,7 @@ function Home() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [shouldClear, setShouldClear] = useState(false);
   const {movies} = useSelector((state) => state.popularMovies);
+  const {user: loggedInUser} = useSelector((state) => state.auth);
   const [message, setMessage] = useState({});
   const [movie, setMovie] = useState();
   const dispatch = useDispatch();
@@ -51,10 +52,14 @@ function Home() {
 
   const renderItems = (index) => {
     const el = movies[index];
+    let backgroundImageUrl = el.image;
+    if (loggedInUser && loggedInUser.loadImageFromServer) {
+      backgroundImageUrl = API_BASE_URL.replace('/api', '') + el.image_src;
+    }
 
     return (
       <div key={index} className="row-item">
-        <div className="movie-image" style={{backgroundImage: `url(${API_BASE_URL.replace('/api', '') + el.image_src})`}} />
+        <div className="movie-image" style={{backgroundImage: `url(${backgroundImageUrl})`}} />
         <div className="movie-comments">
           <div className="title-wrapper">
             <div className="title">

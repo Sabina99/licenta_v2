@@ -168,7 +168,8 @@ class AuthController extends Controller
             'authorisation' => [
                 'token' => Auth::refresh(),
                 'type' => 'bearer',
-            ]
+            ],
+            'loadImageFromServer' => false
         ]);
     }
 
